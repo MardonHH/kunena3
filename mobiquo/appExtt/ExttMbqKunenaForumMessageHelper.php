@@ -1,6 +1,7 @@
 <?php
 
-require_once(KPATH_ADMIN.'/libraries/forum/message/helper.php');
+//require_once(KPATH_ADMIN.'/libraries/forum/message/helper.php');
+require_once(MBQ_PARENT_PATH.'libraries/kunena/forum/message/helper.php');  //for kunena 3.0.0
 
 /**
  * for kunena 2.0.1/2.0.2/2.0.3/2.0.4
@@ -74,7 +75,8 @@ abstract class ExttMbqKunenaForumMessageHelper extends KunenaForumMessageHelper 
 		}
 		$categories = KunenaForumCategoryHelper::getCategories($categories, $reverse, 'topic.'.$authorise);
 		if ($childforums) {
-			$categories += KunenaForumCategoryHelper::getChildren($categories, -1, false, array('action'=>'topic.'.$authorise));
+			//$categories += KunenaForumCategoryHelper::getChildren($categories, -1, false, array('action'=>'topic.'.$authorise));
+			$categories += KunenaForumCategoryHelper::getChildren($categories, -1, array('action'=>'topic.'.$authorise));   //for kunena 3.0.0
 		}
 		$catlist = array();
 		foreach ($categories as $category) {

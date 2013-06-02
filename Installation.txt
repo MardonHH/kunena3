@@ -1,0 +1,23 @@
+= Tapatalk Kunena Plugin Installation Guide =
+
+-- Make installation package for Joomla!
+	Get into the plg_system_tapatalk folder,compress all the files in the folder to plg_system_tapatalk.zip package.
+  
+-- Installation:	
+	At First,please disable the tapatalk plugin in your Joomla! site(if it installed) and delete the mobiquo folder,and continue the following steps!
+	1. Upload mobiquo folder to your Joomla! root folder.You should make the files under the mobiquo folder can be accessed directly through browser,otherwise the plugin may would not work;
+	2. In your Joomla! admin panel, go to Extensions > Extension Manager;
+	3. Select plg_system_tapatalk.zip under 'Upload Package File';
+	4. Click Upload & Install;
+	5. Go to Extensions > Plug-In Manager and search 'Tapatalk' using the Filter box;
+	6. Click the icon to enable Tapatalk Kunena Plugin.
+
+-- Change Log
+    Kunena 3.0 Series Version 0.0.1 released
+    1.support for kunena 3.0.0
+    2.it is beta version plugin,includes all features of Kunena 2.0 tapatalk plugin
+
+-- Support forum:
+https://support.tapatalk.com/forums/kunena-discussion.60/
+
+20130603

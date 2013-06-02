@@ -134,6 +134,18 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
                 if ($file['error'] != UPLOAD_ERR_NO_FILE) $message->uploadAttachment($intkey, $key);
             }
             */
+            
+            //for kunena 3.0.0
+            // Make sure that message has visible content (text, images or objects) to be shown.
+    		$text = KunenaHtmlParser::parseBBCode($message->message);
+    		if (!preg_match('!(<img |<object )!', $text)) {
+    			$text = trim(JFilterOutput::cleanText($text));
+    		}
+    		if (!$text) {
+    			//$this->app->enqueueMessage ( JText::_('COM_KUNENA_LIB_TABLE_MESSAGES_ERROR_NO_MESSAGE'), 'error' );
+    			//$this->redirectBack ();
+    			MbqError::alert('', JText::_('COM_KUNENA_LIB_TABLE_MESSAGES_ERROR_NO_MESSAGE'), '', MBQ_ERR_APP);
+    		}
     
             // Activity integration
             $activity = KunenaFactory::getActivityIntegration();
@@ -330,6 +342,25 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
         		// Check if we are editing first post and update topic if we are!
         		if ($topic->first_post_id == $message->id) {
         			$topic->subject = $fields['subject'];
+        		}
+        		
+        		//for kunena 3.0.0
+        		// If user removed all the text and message doesn't contain images or objects, delete the message instead.
+        		$text = KunenaHtmlParser::parseBBCode($message->message);
+        		if (!preg_match('!(<img |<object )!', $text)) {
+        			$text = trim(JFilterOutput::cleanText($text));
+        		}
+        		if (!$text) {
+        			// Reload message (we don't want to change it).
+        			$message->load();
+        			if ($message->publish(KunenaForum::DELETED)) {
+        				//$this->app->enqueueMessage(JText::_('COM_KUNENA_POST_SUCCESS_DELETE'));
+        				MbqError::alert('', JText::_('COM_KUNENA_POST_SUCCESS_DELETE'), '', MBQ_ERR_APP);
+        			} else {
+        				//$this->app->enqueueMessage($message->getError(), 'notice');
+        				MbqError::alert('', $message->getError(), '', MBQ_ERR_APP);
+        			}
+        			//$this->app->redirect($message->getUrl($this->return, false));
         		}
         
         		// Activity integration
@@ -529,7 +560,15 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
 						continue;
 
 					//JUtility::sendMail ( $this->config->getEmail(), $mailsender, $emailTo->email, $mailsubject, $mailmessage );
-					JUtility::sendMail ( MbqMain::$oMbqAppEnv->oKunenaConfig->getEmail(), $mailsender, $emailTo->email, $mailsubject, $mailmessage );
+					//JUtility::sendMail ( MbqMain::$oMbqAppEnv->oKunenaConfig->getEmail(), $mailsender, $emailTo->email, $mailsubject, $mailmessage );
+					//for kunena 3.0.0
+					$mail = JFactory::getMailer();
+					//$mail->setSender(array($this->me->username,$this->me->email));
+					$mail->setSender(array(MbqMain::$oCurMbqEtUser->mbqBind['oKunenaUser']->username,MbqMain::$oCurMbqEtUser->mbqBind['oKunenaUser']->email));
+					$mail->setBody($mailmessage);
+					$mail->setSubject($mailsubject);
+					$mail->addRecipient($emailTo->email);
+					$mail->send();
 				}
 
 				//$this->app->enqueueMessage ( JText::_ ( 'COM_KUNENA_REPORT_SUCCESS' ) );

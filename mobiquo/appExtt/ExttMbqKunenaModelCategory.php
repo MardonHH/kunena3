@@ -23,7 +23,10 @@ class ExttMbqKunenaModelCategory extends KunenaAdminModelCategories {
 
 		// Administrator state
 		if ($layout == 'manage' || $layout == 'create' || $layout == 'edit') {
-			return parent::populateState();
+			//return parent::populateState();
+			//for kunena 3.0.0
+			parent::populateState();
+			return;
 		}
 
 		$active = $this->app->getMenu ()->getActive ();
@@ -205,6 +208,7 @@ class ExttMbqKunenaModelCategory extends KunenaAdminModelCategories {
 			if ($this->total > 0) {
 				// collect user ids for avatar prefetch when integrated
 				$userlist = array();
+				$lastpostlist = array();    //for kunena 3.0.0
 				foreach ( $this->topics as $topic ) {
 					$userlist[intval($topic->first_post_userid)] = intval($topic->first_post_userid);
 					$userlist[intval($topic->last_post_userid)] = intval($topic->last_post_userid);
@@ -276,6 +280,7 @@ class ExttMbqKunenaModelCategory extends KunenaAdminModelCategories {
 			if ($this->total > 0) {
 				// collect user ids for avatar prefetch when integrated
 				$userlist = array();
+				$lastpostlist = array();    //for kunena 3.0.0
 				foreach ( $this->topics as $topic ) {
 					$userlist[intval($topic->first_post_userid)] = intval($topic->first_post_userid);
 					$userlist[intval($topic->last_post_userid)] = intval($topic->last_post_userid);
@@ -322,12 +327,21 @@ class ExttMbqKunenaModelCategory extends KunenaAdminModelCategories {
 			}
 			if (!$permdelete && $topic->authorise('permdelete')) $permdelete = true;
 		}
+		/*
 		$actionDropdown[] = JHTML::_('select.option', 'none', JText::_('COM_KUNENA_BULK_CHOOSE_ACTION'));
 		if ($move) $actionDropdown[] = JHTML::_('select.option', 'move', JText::_('COM_KUNENA_MOVE_SELECTED'));
 		if ($approve) $actionDropdown[] = JHTML::_('select.option', 'approve', JText::_('COM_KUNENA_APPROVE_SELECTED'));
 		if ($delete) $actionDropdown[] = JHTML::_('select.option', 'delete', JText::_('COM_KUNENA_DELETE_SELECTED'));
 		if ($permdelete) $actionDropdown[] = JHTML::_('select.option', 'permdel', JText::_('COM_KUNENA_BUTTON_PERMDELETE_LONG'));
 		if ($undelete) $actionDropdown[] = JHTML::_('select.option', 'restore', JText::_('COM_KUNENA_BUTTON_UNDELETE_LONG'));
+		*/
+		//for kunena 3.0.0
+		$actionDropdown[] = JHtml::_('select.option', 'none', JText::_('COM_KUNENA_BULK_CHOOSE_ACTION'));
+		if ($move) $actionDropdown[] = JHtml::_('select.option', 'move', JText::_('COM_KUNENA_MOVE_SELECTED'));
+		if ($approve) $actionDropdown[] = JHtml::_('select.option', 'approve', JText::_('COM_KUNENA_APPROVE_SELECTED'));
+		if ($delete) $actionDropdown[] = JHtml::_('select.option', 'delete', JText::_('COM_KUNENA_DELETE_SELECTED'));
+		if ($permdelete) $actionDropdown[] = JHtml::_('select.option', 'permdel', JText::_('COM_KUNENA_BUTTON_PERMDELETE_LONG'));
+		if ($undelete) $actionDropdown[] = JHtml::_('select.option', 'restore', JText::_('COM_KUNENA_BUTTON_UNDELETE_LONG'));
 
 		if (count($actionDropdown) == 1) return null;
 		return $actionDropdown;
@@ -343,8 +357,13 @@ class ExttMbqKunenaModelCategory extends KunenaAdminModelCategories {
 	}
 
 	public function getCategoryActions() {
+	    /*
 		$actionDropdown[] = JHTML::_('select.option', 'none', JText::_('COM_KUNENA_BULK_CHOOSE_ACTION'));
 		$actionDropdown[] = JHTML::_('select.option', 'unsubscribe', JText::_('COM_KUNENA_UNSUBSCRIBE_SELECTED'));
+		*/
+		//for kunena 3.0.0
+		$actionDropdown[] = JHtml::_('select.option', 'none', JText::_('COM_KUNENA_BULK_CHOOSE_ACTION'));
+		$actionDropdown[] = JHtml::_('select.option', 'unsubscribe', JText::_('COM_KUNENA_UNSUBSCRIBE_SELECTED'));
 
 		if (count($actionDropdown) == 1) return null;
 		return $actionDropdown;

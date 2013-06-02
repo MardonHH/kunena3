@@ -190,6 +190,18 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
                 if ($file['error'] != UPLOAD_ERR_NO_FILE) $message->uploadAttachment($intkey, $key);
             }
             */
+            
+            //for kunena 3.0.0
+            // Make sure that message has visible content (text, images or objects) to be shown.
+    		$text = KunenaHtmlParser::parseBBCode($message->message);
+    		if (!preg_match('!(<img |<object )!', $text)) {
+    			$text = trim(JFilterOutput::cleanText($text));
+    		}
+    		if (!$text) {
+    			//$this->app->enqueueMessage ( JText::_('COM_KUNENA_LIB_TABLE_MESSAGES_ERROR_NO_MESSAGE'), 'error' );
+    			//$this->redirectBack ();
+    			MbqError::alert('', JText::_('COM_KUNENA_LIB_TABLE_MESSAGES_ERROR_NO_MESSAGE'), '', MBQ_ERR_APP);
+    		}
     
             // Activity integration
             $activity = KunenaFactory::getActivityIntegration();
@@ -482,6 +494,7 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
 		}
 
 		$error = null;
+		$targetobject = null;   //for kunena 3.0.0
 		if (!$object->authorise ( 'move' )) {
 			$error = $object->getError();
 			MbqError::alert('', $error, '', MBQ_ERR_APP);

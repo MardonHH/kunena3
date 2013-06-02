@@ -48,6 +48,11 @@ class ExttMbqKunenaModelTopics extends KunenaModelTopics {
 		$where = '';
 		$lastpost = true;
 
+        //for kunena 3.0.0
+		// Reset topics.
+		$this->total = 0;
+		$this->topics = array();
+
 		//switch ($this->getState ( 'list.mode' )) {
 		switch ($p['mode']) {
 			case 'topics' :
@@ -65,7 +70,8 @@ class ExttMbqKunenaModelTopics extends KunenaModelTopics {
 			case 'unapproved' :
 				$allowed = KunenaForumCategoryHelper::getCategories(false, false, 'topic.approve');
 				if (empty($allowed)) {
-					return array(0, array());
+					//return array(0, array());
+					return; //for kunena 3.0.0
 				}
 				$allowed = implode(',', array_keys($allowed));
 				$hold = '1';
@@ -74,7 +80,8 @@ class ExttMbqKunenaModelTopics extends KunenaModelTopics {
 			case 'deleted' :
 				$allowed = KunenaForumCategoryHelper::getCategories(false, false, 'topic.undelete');
 				if (empty($allowed)) {
-					return array(0, array());
+					//return array(0, array());
+					return; //for kunena 3.0.0
 				}
 				$allowed = implode(',', array_keys($allowed));
 				$hold = '2';

@@ -18,23 +18,11 @@ Class MbqCm extends MbqBaseCm {
      * transform timestamp to iso8601 format
      *
      * @param  Integer  $timeStamp
-     * @param  Mixed  $timeOffset
      * TODO:need to be made more general.
      */
-    public function datetimeIso8601Encode($timeStamp, $timeOffset = NULL) {
-        $timeOffset = $timeOffset ? $timeOffset : MbqMain::$oMbqAppEnv->timeOffset;
-        $date = JFactory::getDate($timeStamp);
-        if (is_numeric($timeOffset)) {
-            $date->setOffset($timeOffset);
-        } else {
-            // Joomla 1.6 support
-            $offset = new DateTimeZone($timeOffset);
-            $date->setTimezone($offset);
-        }
-        $timezone = method_exists($date, 'getOffsetFromGMT') ? $date->getOffsetFromGMT(true) : 0;
-        $t = $date->toFormat("%Y%m%dT%H:%M:%S", true);
-        $t .= sprintf("%+03d:%02d", intval($timezone), abs($timezone - intval($timezone)) * 60);
-        return $t;
+    public function datetimeIso8601Encode($timeStamp) {
+        //return date("c", $timeStamp);
+        return date('Ymd\TH:i:s', $timeStamp).'+00:00';
     }
     
     /**

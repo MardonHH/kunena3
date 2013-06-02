@@ -351,7 +351,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             }
             return $oMbqEtForumPost;
         } elseif ($mbqOpt['case'] == 'byPostId') {
-            require_once(KPATH_ADMIN.'/libraries/forum/message/helper.php');
+            require_once(MBQ_PARENT_PATH.'libraries/kunena/forum/message/helper.php');
             if (($oKunenaForumMessage = KunenaForumMessageHelper::get($var)) && $oKunenaForumMessage->id) {
                 $mbqOpt['case'] = 'oKunenaForumMessage';
                 return $this->initOMbqEtForumPost($oKunenaForumMessage, $mbqOpt);
