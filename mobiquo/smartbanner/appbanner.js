@@ -104,17 +104,25 @@ if (app_ios_id != '-1' && navigator.userAgent.match(/Safari/i) != null &&
     }
 }
 
+// for those forum system which can not add js in html body
+if (functionCallAfterWindowLoad) addWindowOnload(tapatalkDetect)
+
+var bannerLoaded = false
+
 function tapatalkDetect()
 {
     var standalone = navigator.standalone // Check if it's already a standalone web app or running within a webui view of an app (not mobile safari)
-    addtrack();
+    if (empty(functionCallAfterWindowLoad)) addtrack();
     
     // work only when browser support cookie
     if (!navigator.cookieEnabled 
+        || bannerLoaded
         || standalone
         || document.cookie.indexOf("banner-closed=true") >= 0 
         || native_ios_banner)
         return
+    
+    bannerLoaded = true
     
     app_banner_message = app_banner_message.replace(/\{your_forum_name\}/gi, app_forum_name);
     app_banner_message = app_banner_message.replace(/\{app_name\}/gi, app_name);

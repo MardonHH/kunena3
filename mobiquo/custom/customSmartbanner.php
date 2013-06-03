@@ -7,6 +7,7 @@
  * @author Wu ZeTao <578014287@qq.com>
  */
 Class MbqSmartbanner {
+    public static $functionCallAfterWindowLoad = 0; //for those forum system which can not add js in html body, please set $functionCallAfterWindowLoad as 1
     public static $IS_MOBILE_SKIN = 0;  //0 or 1,judge this is on a mobile skin
     public static $APP_IOS_ID = '';  //set to '' if not byo,ios app id from byo option
     public static $APP_ANDROID_ID = '';  //set to '' if not byo,android app id from byo option
