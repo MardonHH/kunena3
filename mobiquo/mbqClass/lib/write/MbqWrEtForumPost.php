@@ -34,7 +34,7 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
                 'name' => (MbqMain::$oCurMbqEtUser ? MbqMain::$oCurMbqEtUser->loginName->oriValue : ''),
                 'email' => JRequest::getString ( 'email', null ),
                 //'subject' => JRequest::getVar ( 'subject', null, 'POST', 'string', JREQUEST_ALLOWRAW ),
-                'subject' => $var->postTitle->oriValue,
+                'subject' => $var->postTitle->oriValue ? 'Re:'.$var->postTitle->oriValue : 'Re:'.$var->oMbqEtForumTopic->topicTitle->oriValue,
                 //'message' => JRequest::getVar ( 'message', null, 'POST', 'string', JREQUEST_ALLOWRAW ),
                 'message' => $var->postContent->oriValue,
                 'icon_id' => JRequest::getInt ( 'topic_emoticon', null ),
