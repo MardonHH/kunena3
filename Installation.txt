@@ -13,14 +13,17 @@
 	6. Click the icon to enable Tapatalk Kunena Plugin.
 
 -- Change Log
-	Kunena 3.0 Series Version 0.0.1 released
+	Kunena 3.0 Series Version 1.0.0 released
 	1.support for kunena 3.0.0
-	2.it is beta version plugin,includes all features of Kunena 2.0 tapatalk plugin
+	2.fixed some bugs
 
 -- Special Instruction for Branded Customer
 	By default the Plugin will notify mobile users to download Tapatalk app. If you have purchased the branded license from us and wish to send mobile user to your mobile app, please config in plugin file 'mobiquo/custom/customSmartbanner.php'.
 
+-- Github Url
+        https://github.com/tapatalk/kunena3
+
 -- Support forum:
 https://support.tapatalk.com/forums/kunena-discussion.60/
 
-20130605
+20130613
