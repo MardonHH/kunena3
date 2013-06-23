@@ -448,12 +448,15 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	$post = preg_replace('/<img .*?src="(.*?)" .*?\/>/i', '[img]$1[/img]', $post);
     	$post = preg_replace('/<a .*?href="(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
     	$post = preg_replace_callback('/\[img\]([\\|\/].*?)\[\/img\]/i', create_function('$matches','return "[img]".MbqMain::$oMbqAppEnv->joomlaRootUrl.substr($matches[1],1)."[/img]";'), $post);
+    	$post = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$matches','$pre = strtolower(substr($matches[1],0,4));if ($pre == "http") return "[img]".$matches[1]."[/img]";else return "[img]".MbqMain::$oMbqAppEnv->joomlaRootUrl.$matches[1]."[/img]";'), $post);    //fixed bug:can not correctly parse the url when meet url as:images/powered_by.png
     	$post = preg_replace_callback('/\[url=([\\|\/].*?)\](.*?)\[\/url\]/i', create_function('$matches','return "[url=".MbqMain::$oMbqAppEnv->joomlaRootUrl.substr($matches[1],1)."]".$matches[2]."[/url]";'), $post);
+    	$post = preg_replace_callback('/\[url=(.*?)\](.*?)\[\/url\]/i', create_function('$matches','$pre = strtolower(substr($matches[1],0,4));if ($pre == "http") return "[url=".$matches[1]."]".$matches[2]."[/url]";else return "[url=".MbqMain::$oMbqAppEnv->joomlaRootUrl.$matches[1]."]".$matches[2]."[/url]";'), $post);  //fixed bug:can not correctly parse the url when meet url as:images/powered_by.png
     	$post = str_ireplace('<strong>', '<b>', $post);
     	$post = str_ireplace('</strong>', '</b>', $post);
     	$post = preg_replace_callback('/<span style=\"color:(\#.*?)\">(.*?)<\/span>/is', create_function('$matches','return MbqMain::$oMbqCm->mbColorConvert($matches[1], $matches[2]);'), $post);
     	$post = preg_replace('/<span style=\"color:(.*?)\">(.*?)<\/span>/is', '<font color="$1">$2</font>', $post);
     	$post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?><\/embed><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
+        $post = preg_replace('/<iframe .*?src="(.*?)".*?\/><\/iframe>/si', "[url=$1]$1[/url]", $post);    /* for youtube content */
     	$post = preg_replace('/<div class="bbcode_indent" .*?>(.*?)<\/div>/is', "\t\t".'$1', $post);
     	$post = preg_replace('/<div class="kspoiler".*?><div class="kspoiler\-header".*?>.*?<\/div><div class="kspoiler\-wrapper".*?><div class="kspoiler\-content".*?>(.*?)<\/div><\/div><\/div>/i', '[spoiler]$1[/spoiler]', $post);
     	if ($returnHtml) {
