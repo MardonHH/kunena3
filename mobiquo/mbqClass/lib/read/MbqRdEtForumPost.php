@@ -263,7 +263,8 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             $oMbqEtForumPost->postContent->setAppDisplayValue($oExttMbqKunenaViewTopic->exttMbqReturnDisplayMessageContents($var));
             $oMbqEtForumPost->postContent->setTmlDisplayValue($this->processContentForDisplay($oExttMbqKunenaViewTopic->exttMbqReturnDisplayMessageContents($newVar), true, $oMbqEtForumPost));
             $oMbqEtForumPost->postContent->setTmlDisplayValueNoHtml($this->processContentForDisplay($oExttMbqKunenaViewTopic->exttMbqReturnDisplayMessageContents($newVar), false, $oMbqEtForumPost));
-            $oMbqEtForumPost->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->message));
+            //$oMbqEtForumPost->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->message));
+            $oMbqEtForumPost->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($oMbqEtForumPost->postContent->tmlDisplayValue));
             $oMbqEtForumPost->postAuthorId->setOriValue($var->userid);
             if ($var->authorise('edit')) {
                 $oMbqEtForumPost->canEdit->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumPost.canEdit.range.yes'));
