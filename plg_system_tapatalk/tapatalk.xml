@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE extension>
-<extension type="plugin" group="system" version="2.5" method="upgrade">
-    <name>Tapatalk Kunena Plugin</name>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>Tapatalk Kunena Plugin</name>
     <creationDate>June 2013</creationDate>
     <author>Tapatalk Team</author>
     <authorUrl>http://www.tapatalk.com</authorUrl>
     <copyright>Copyright (C) Quoord Systems Ltd. All rights reserved.</copyright>
     <version>kn30_1.0.0</version>
     <description>Tapatalk Kunena Plugin</description>
-    <files>
-        <filename plugin="tapatalk">tapatalk.php</filename>
-    </files>
+    <scriptfile>script.php</scriptfile>
+	<files>
+		<filename plugin="tapatalk">tapatalk.php</filename>
+	</files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="tapatalk_directory" type="text" default="mobiquo" label="Tapatalk Plugin Directory" description="Advanced Use Only. Change it only if you did rename the Tapatalk plugin directory. And the default value is 'mobiquo'. If you have installed Tapatalk plugin in different directory, you will also need to apply the same settings in Tapatalk Forum Owner Area at http://tapatalk.com/forum_owner.php" />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

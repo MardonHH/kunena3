@@ -11,7 +11,7 @@ jimport('joomla.plugin.plugin');
  * @package		Joomla.Plugin
  * @subpackage	System.Tapatalk
  */
-class plgSystemTapatalk extends JPlugin
+class PlgSystemTapatalk extends JPlugin
 {
 	public function onAfterRender()
 	{
