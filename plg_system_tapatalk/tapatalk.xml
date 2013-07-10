@@ -14,7 +14,15 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="tapatalk_directory" type="text" default="mobiquo" label="Tapatalk Plugin Directory" description="Advanced Use Only. Change it only if you did rename the Tapatalk plugin directory. And the default value is 'mobiquo'. If you have installed Tapatalk plugin in different directory, you will also need to apply the same settings in Tapatalk Forum Owner Area at http://tapatalk.com/forum_owner.php" />
+                <field name="tapatalk_directory" type="text" default="mobiquo" readonly="true" label="Tapatalk Plugin Directory" description="Advanced Use Only. Change it only if you did rename the Tapatalk plugin directory. And the default value is 'mobiquo'. If you have installed Tapatalk plugin in different directory, you will also need to apply the same settings in Tapatalk Forum Owner Area at http://tapatalk.com/forum_owner.php" />
+                <field name="tapatalk_push_key" type="text" default="" label="Push Key" description="Optional but Recommended. Push Key helps us to verify the origin of push notification requests we received from your server, you can obtain this value from Tapatalk Forum Owner Area. This field is optional but very helpful to make sure your Push requests are delivered to your member's mobile devices." />
+            </fieldset>
+            <fieldset name="advanced">
+                <field name="app_banner_message" type="textarea" default="" label="BYO App Banner Message" description="E.g. &quot;Follow {your_forum_name} 
+with {app_name} for [os_platform]&quot;. Do not change the [os_platform] tag as it is displayed dynamically based on user's device platform." />
+                <field name="app_ios_id" type="text" default="" label="BYO iOS App ID" description="Enter your BYO product ID in Apple App Store, to be used on iOS device." />
+                <field name="app_android_id" type="text" default="" label="Android Product ID" description="Enter your BYO App ID from Google Play, to be used on Android device. E.g. &quot;com.quoord.tapatalkpro.activity&quot;" />
+                <field name="app_kindle_url" type="text" default="" label="Kindle Fire Product URL" description="Enter your BYO App URL from Amazon App Store, to be used on Kindle Fire device. E.g. &quot;http://www.amazon.com/gp/mas/dl/android?p=com.quoord.tapatalkpro.activity&quot;" />
             </fieldset>
         </fields>
     </config>
