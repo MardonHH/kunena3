@@ -77,6 +77,10 @@ Class MbqConfig extends MbqBaseConfig {
             $this->cfg['forum']['mark_read']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.forum.mark_read.range.notSupport'));
             $this->cfg['forum']['can_unread']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.forum.can_unread.range.notSupport'));
         }
+        
+        //test
+        //$oTapatalkPush = new TapatalkPush();
+            //$oTapatalkPush->callMethod('doAfterAppLogin');
     }
     
 }
