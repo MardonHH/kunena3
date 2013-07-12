@@ -277,6 +277,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
                 $oMbqEtForumPost->canMove->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumPost.canMove.range.no'));
             }
             $oMbqEtForumPost->postTime->setOriValue($var->time);
+            $oMbqEtForumPost->position->setOriValue(KunenaForumMessageHelper::getLocation($oMbqEtForumPost->postId->oriValue) + 1);
             $oMbqEtForumPost->mbqBind['oKunenaForumMessage'] = $var;
             if ($var->hold == KunenaForum::PUBLISHED) {
                 $oMbqEtForumPost->isApproved->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumPost.isApproved.range.yes'));

@@ -26,6 +26,7 @@ MbqMain::$customConfig['forum']['subscribe_forum'] = MbqBaseFdt::getFdt('MbqFdtC
 MbqMain::$customConfig['forum']['subscribe_load'] = MbqBaseFdt::getFdt('MbqFdtConfig.forum.subscribe_load.range.support');
 MbqMain::$customConfig['forum']['report_post'] = MbqBaseFdt::getFdt('MbqFdtConfig.forum.report_post.range.support');
 MbqMain::$customConfig['forum']['mark_read'] = MbqBaseFdt::getFdt('MbqFdtConfig.forum.mark_read.range.support');
+MbqMain::$customConfig['forum']['goto_post'] = MbqBaseFdt::getFdt('MbqFdtConfig.forum.report_post.range.support');
 
 if (MbqCommonConfig::$cfg['push'])
 MbqMain::$customConfig['base']['push'] = MbqCommonConfig::$cfg['push'];
