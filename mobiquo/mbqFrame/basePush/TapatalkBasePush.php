@@ -9,7 +9,10 @@
 Abstract Class TapatalkBasePush {
     
     protected $pushStatus = false; //judged by push flag in get_config and curl_init,allow_url_fopen and push key
-    protected $pushKey;
+    protected $pushKey = '';
+    protected $slugData = array();  //default is empty array
+    protected $imActive = false;    //judge current user is active user by tapatalk_push_user table
+    protected $siteUrl;
     
     //init
     public function __construct() {
