@@ -30,9 +30,19 @@ Class TapatalkPush extends TapatalkBasePush {
         $this->loadImActive();
         
         $this->loadPushStatus();
+        $this->loadSupportedPushType();
         $this->loadSlug();
         
         $this->siteUrl = JURI::root();
+    }
+    
+    /**
+     * load $this->supportedPushType
+     */
+    protected function loadSupportedPushType() {
+        if (MbqCommonConfig::$cfg['push_type']) {
+            $this->supportedPushType = explode(',', MbqCommonConfig::$cfg['push_type']);
+        }
     }
     
     /**
@@ -75,13 +85,15 @@ Class TapatalkPush extends TapatalkBasePush {
      * load $this->pushStatus and $this->pushKey
      */
     protected function loadPushStatus() {
-        if (($plugin = JPluginHelper::getPlugin('system', 'tapatalk')) && JPluginHelper::isEnabled('system', 'tapatalk') && (@ini_get('allow_url_fopen') || function_exists('curl_init'))) {
+        if (MbqCommonConfig::$cfg['push'] && ($plugin = JPluginHelper::getPlugin('system', 'tapatalk')) && JPluginHelper::isEnabled('system', 'tapatalk') && (@ini_get('allow_url_fopen') || function_exists('curl_init'))) {
             $settings = json_decode($plugin->params);
             if ($settings->tapatalk_push_key) {
                 $this->pushKey = $settings->tapatalk_push_key;
             }
-            $this->pushStatus = true;
-            return;
+            if ($settings->activity) {
+                $this->pushStatus = true;
+                return;
+            }
         }
         $this->pushStatus = false;
     }
@@ -156,6 +168,11 @@ Class TapatalkPush extends TapatalkBasePush {
      */
     protected function push($push_data) {
         if (!empty($push_data)) {
+            foreach ($push_data as $pack) {
+                if (!in_array($pack['type'], $this->supportedPushType)) {
+                    return false;
+                }
+            }
             $data = array(
                 'url'  => $this->siteUrl,
                 'key'  => $this->pushKey,

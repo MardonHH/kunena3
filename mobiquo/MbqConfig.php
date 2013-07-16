@@ -77,6 +77,16 @@ Class MbqConfig extends MbqBaseConfig {
             $this->cfg['forum']['mark_read']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.forum.mark_read.range.notSupport'));
             $this->cfg['forum']['can_unread']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.forum.can_unread.range.notSupport'));
         }
+        if ($this->getCfg('base.push')->oriValue == MbqBaseFdt::getFdt('MbqFdtConfig.base.push.range.support') && ($plugin = JPluginHelper::getPlugin('system', 'tapatalk')) && JPluginHelper::isEnabled('system', 'tapatalk') && (@ini_get('allow_url_fopen') || function_exists('curl_init'))) {
+            $settings = json_decode($plugin->params);
+            if ($settings->activity) {
+                $this->cfg['base']['push']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.base.push.range.support'));
+            } else {
+                $this->cfg['base']['push']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.base.push.range.notSupport'));
+            }
+        } else {
+            $this->cfg['base']['push']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.base.push.range.notSupport'));
+        }
         
         //test
         //$oTapatalkPush = new TapatalkPush();
