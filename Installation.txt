@@ -13,7 +13,7 @@
 	6. Click the icon to enable Tapatalk Kunena Plugin.
 
 -- Change Log
-	Kunena 3.0 Series Version 1.0.0 released
+	Kunena 3.0 Series Version 1.0.0 Plugin released
 	1.support for kunena 3.0.0
 	2.fixed some bugs
 
@@ -24,6 +24,6 @@
         https://github.com/tapatalk/kunena3
 
 -- Support forum:
-https://support.tapatalk.com/forums/kunena-discussion.60/
+        https://support.tapatalk.com/forums/kunena-discussion.60/
 
 20130613
