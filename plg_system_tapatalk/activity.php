@@ -13,11 +13,33 @@ jimport('joomla.plugin.plugin');
 class KunenaActivityTapatalk extends KunenaActivity
 {
     
-	public function onAfterPost($message)
-	{
+    /**
+     * for thank
+     *
+     * @param  Integer  $target  user id who start the thank action
+     * @param  Integer  $actor  message owner
+     * @param  Object  $message  KunenaForumMessage object
+     */
+    public function onAfterThankyou($target, $actor, $message) {
+        $pushPath = 'mobiquo/push/TapatalkPush.php';
+        require_once($pushPath);
+        $oTapatalkPush = new TapatalkPush();
+        $oTapatalkPush->callMethod('doPushThank', array(
+            'oKunenaForumMessage' => $message
+        ));
+    }
+    
+    /**
+     * for new topic
+     */
+	public function onAfterPost($message) {
 	    
-	    //error_log(print_r($message, true).'eerrttyy');
-	    
+	}
+    
+    /**
+     * for reply post
+     */
+	public function onAfterReply($message) {
 	}
 	
 }

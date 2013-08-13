@@ -2,6 +2,8 @@
 
 define('MBQ_PUSH_BLOCK_TIME', 60);    /* push block time(minutes) */
 
+require_once(dirname(__FILE__).'/../mbqFrame/basePush/TapatalkBasePush.php');   //this sentence only used for push feature of native plugin
+
 /**
  * push class
  * 
@@ -415,7 +417,7 @@ Class TapatalkPush extends TapatalkBasePush {
      */
     protected function doAfterAppLogin() {
         $oJUser = JFactory::getUser();
-        if ($oJUser->id) {
+        if ($oJUser->id && $this->pushStatus) {
             $query ="SELECT count(user_id) as num FROM #__tapatalk_push_user WHERE user_id = ".$this->oDb->quote($oJUser->id);
     		$this->oDb->setQuery($query);
 			$results = $this->oDb->loadAssocList ();
@@ -442,7 +444,7 @@ Class TapatalkPush extends TapatalkBasePush {
      */
     protected function doPushThank($p) {
         $push_data = array();
-        if (MBQ_IN_IT) {    //mobiquo
+        if (defined('MBQ_IN_IT') && MBQ_IN_IT) {    //mobiquo
             if ($p['oMbqEtForumPost'] && $p['oMbqEtThank']) {
                 $pushPack = array(
                     'userid'    => $p['oMbqEtForumPost']->postAuthorId->oriValue,
@@ -457,7 +459,19 @@ Class TapatalkPush extends TapatalkBasePush {
                 $this->push($push_data);
             }
         } else {    //native plugin
-            
+            if ($p['oKunenaForumMessage']) {
+                $pushPack = array(
+                    'userid'    => $p['oKunenaForumMessage']->userid,
+                    'type'      => 'thank',
+                    'id'        => $p['oKunenaForumMessage']->thread,
+                    'subid'     => $p['oKunenaForumMessage']->id,
+                    'title'     => $p['oKunenaForumMessage']->subject,
+                    'author'    => $this->oJUser->name,
+                    'dateline'  => time()
+                );
+                $push_data[] = $pushPack;
+                $this->push($push_data);
+            }
         }
         return false;
     }

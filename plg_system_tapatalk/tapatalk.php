@@ -13,6 +13,13 @@ jimport('joomla.plugin.plugin');
  */
 class PlgSystemTapatalk extends JPlugin
 {
+    
+    public function onKunenaGetActivity() {
+        if (!$this->params->get('activity', 1)) return null;    //!!!
+        require_once __DIR__ . "/activity.php";
+        return new KunenaActivityTapatalk($this->params);
+    }
+    
 	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
