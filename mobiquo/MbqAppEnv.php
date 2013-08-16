@@ -30,7 +30,7 @@ Class MbqAppEnv extends MbqBaseAppEnv {
         @ ob_start();
         define('_JEXEC', 1);
         define('DS', DIRECTORY_SEPARATOR);
-        define('JPATH_BASE', realpath(MBQ_PARENT_PATH));    /* attention!!! */
+        define('JPATH_BASE', substr(MBQ_PARENT_PATH, 0, strlen(MBQ_PARENT_PATH) - 1));    /* attention!!! */
         require_once JPATH_BASE.'/includes/defines.php';
         require_once JPATH_BASE.'/includes/framework.php';
         $this->oApp = JFactory::getApplication('site');
