@@ -195,7 +195,7 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
 		}
 
 		if ($ids) {
-			$topiclist = array();
+			//$topiclist = array();   //removed for kunena 3.0.1
 			$idstr = implode ( ",", $ids );
 
 			$db = JFactory::getDBO ();

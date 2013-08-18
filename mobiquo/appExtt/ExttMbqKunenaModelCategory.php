@@ -43,7 +43,7 @@ class ExttMbqKunenaModelCategory extends KunenaAdminModelCategories {
 		if ($value < 1 || $value > 100) $value = $defaultlimit;
 		$this->setState ( 'list.limit', $value );
 
-		$value = $this->getUserStateFromRequest ( "com_kunena.category{$catid}_{$format}_{$active}_list_ordering", 'filter_order', 'time', 'cmd' );
+		//$value = $this->getUserStateFromRequest ( "com_kunena.category{$catid}_{$format}_{$active}_list_ordering", 'filter_order', 'time', 'cmd' );   //removed for kunena 3.0.1
 		//$this->setState ( 'list.ordering', $value );
 
 		$value = $this->getUserStateFromRequest ( "com_kunena.category{$catid}_{$format}_list_start", 'limitstart', 0, 'int' );

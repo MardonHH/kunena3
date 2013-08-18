@@ -114,7 +114,7 @@ Class MbqWrEtUser extends MbqBaseWrEtUser {
 		$DelSignature = JRequest::getVar ( 'delsignature', '' );
 		$DelProfileInfo = JRequest::getVar ( 'delprofileinfo', '' );
 
-		$db = JFactory::getDBO();
+		//$db = JFactory::getDBO();     //removed for kunena 3.0.1
 		if (! empty ( $DelAvatar ) || ! empty ( $DelProfileInfo )) {
 			jimport ( 'joomla.filesystem.file' );
 			$avatar_deleted = '';

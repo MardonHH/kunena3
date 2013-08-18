@@ -87,10 +87,6 @@ Class MbqConfig extends MbqBaseConfig {
         } else {
             $this->cfg['base']['push']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.base.push.range.notSupport'));
         }
-        
-        //test
-        //$oTapatalkPush = new TapatalkPush();
-            //$oTapatalkPush->callMethod('doAfterAppLogin');
     }
     
 }
