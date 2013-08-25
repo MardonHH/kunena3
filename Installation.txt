@@ -14,8 +14,13 @@
 
 -- Change Log
 	Kunena 3.0 Series Tapatalk Plugin Version 1.0.0 released
-	1.support for kunena 3.0.0
-	2.fixed some bugs
+	1.support for kunena 3.0.0/3.0.1/3.0.2;
+	2.finished some optimization work;
+        3.improved smartbanner;
+        4.improved installer;
+        5.support get thread by post/unread;
+        6.fixed pagination issue;
+        7.fixed bug:php function realpath() can not correctly run in some sites;
 
 -- Special Instruction for Branded Customer
 	By default the Plugin will notify mobile users to download Tapatalk app. If you have purchased the branded license from us and wish to send mobile user to your mobile app, please config in plugin file 'mobiquo/custom/customSmartbanner.php'.
