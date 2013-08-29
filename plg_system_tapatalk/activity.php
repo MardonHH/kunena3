@@ -33,13 +33,24 @@ class KunenaActivityTapatalk extends KunenaActivity
      * for new topic
      */
 	public function onAfterPost($message) {
-	    
+        $pushPath = 'mobiquo/push/TapatalkPush.php';
+        require_once($pushPath);
+        $oTapatalkPush = new TapatalkPush();
+        $oTapatalkPush->callMethod('doPushNewtopic', array(
+            'oKunenaForumMessage' => $message
+        ));
 	}
     
     /**
      * for reply post
      */
 	public function onAfterReply($message) {
+        $pushPath = 'mobiquo/push/TapatalkPush.php';
+        require_once($pushPath);
+        $oTapatalkPush = new TapatalkPush();
+        $oTapatalkPush->callMethod('doPushReply', array(
+            'oKunenaForumMessage' => $message
+        ));
 	}
 	
 }

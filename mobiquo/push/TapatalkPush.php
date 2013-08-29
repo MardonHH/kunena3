@@ -476,6 +476,141 @@ Class TapatalkPush extends TapatalkBasePush {
         return false;
     }
     
+    /**
+     * newtopic push(include some types push)
+     *
+     * @param  Array  $p
+     * @return Boolean
+     */
+    protected function doPushNewtopic($p) {
+        $push_data = array();
+        if (defined('MBQ_IN_IT') && MBQ_IN_IT) {    //mobiquo
+            $topicId = $p['oMbqEtForumTopic']->topicId->oriValue;
+            $forumId = $p['oMbqEtForumTopic']->forumId->oriValue;
+        } else {    //native plugin
+            $topicId = $p['oKunenaForumMessage']->thread;
+            $forumId = $p['oKunenaForumMessage']->catid;
+        }
+        $db = JFactory::getDBO ();
+		$query = "SELECT user_id FROM #__kunena_user_categories WHERE category_id={$db->Quote($forumId)} AND subscribed=1";
+		$db->setQuery ( $query );
+		$userIds = (array) $db->loadColumn ();
+		$objsKunenaUser = $this->getUsersByUserIdsExceptMe($userIds);
+		$oKunenaForumTopic = $this->getTopicByTopicId($topicId);
+		if ($objsKunenaUser && $oKunenaForumTopic) {
+		    $oKunenaForumMessage = $this->getPostByPostId($oKunenaForumTopic->first_post_id);
+		    if ($oKunenaForumMessage) {
+		        //can send push
+		        foreach ($objsKunenaUser as $oKunenaUser) {
+                    $pushPack = array(
+                        'userid'    => $oKunenaUser->userid,
+                        'type'      => 'newtopic',
+                        'id'        => $topicId,
+                        'subid'     => $oKunenaForumMessage->id,
+                        'title'     => $oKunenaForumMessage->subject,
+                        'author'    => $this->oJUser->name,
+                        'dateline'  => time()
+                    );
+                    $push_data[] = $pushPack;
+		        }
+                $this->push($push_data);
+		    }
+		}
+        return false;
+    }
+    
+    /**
+     * reply push(include some types push)
+     *
+     * @param  Array  $p
+     * @return Boolean
+     */
+    protected function doPushReply($p) {
+        $push_data = array();
+        if (defined('MBQ_IN_IT') && MBQ_IN_IT) {    //mobiquo
+            $topicId = $p['oMbqEtForumPost']->topicId->oriValue;
+            $postId = $p['oMbqEtForumPost']->postId->oriValue;
+        } else {    //native plugin
+            $topicId = $p['oKunenaForumMessage']->thread;
+            $postId = $p['oKunenaForumMessage']->id;
+        }
+        $db = JFactory::getDBO ();
+		$query = "SELECT user_id FROM #__kunena_user_topics WHERE topic_id={$db->Quote($topicId)} AND subscribed=1";
+		$db->setQuery ( $query );
+		$userIds = (array) $db->loadColumn ();
+		$objsKunenaUser = $this->getUsersByUserIdsExceptMe($userIds);
+		$oKunenaForumTopic = $this->getTopicByTopicId($topicId);
+		//send sub push
+		if ($objsKunenaUser && $oKunenaForumTopic) {
+		    $oKunenaForumMessage = $this->getPostByPostId($postId);
+		    if ($oKunenaForumMessage) {
+		        //can send push
+		        foreach ($objsKunenaUser as $oKunenaUser) {
+                    $pushPack = array(
+                        'userid'    => $oKunenaUser->userid,
+                        'type'      => 'sub',
+                        'id'        => $topicId,
+                        'subid'     => $postId,
+                        'title'     => $oKunenaForumMessage->subject,
+                        'author'    => $this->oJUser->name,
+                        'dateline'  => time()
+                    );
+                    $push_data[] = $pushPack;
+		        }
+                $this->push($push_data);
+		    }
+		}
+        return false;
+    }
+    
+    /**
+     * get users by user ids except me
+     *
+     * @param  Array  $userIds
+     * @return  Array
+     */
+    protected function getUsersByUserIdsExceptMe($userIds) {
+        $objsKunenaUser = array();
+        foreach ($userIds as $userId) {
+            $oKunenaUser = new KunenaUser($userId);
+            //if ($oKunenaUser->exists() && !$oKunenaUser->isMyself() && !$oKunenaUser->isBanned()) {
+            if ($oKunenaUser->exists() && !$oKunenaUser->isBanned() && ($userId != $this->oJUser->id)) {
+                $objsKunenaUser[] = $oKunenaUser;
+            }
+        }
+        return $objsKunenaUser;
+    }
+    
+    /**
+     * get topic by topic id
+     *
+     * @param  Integer  $topicId
+     * @return Mixed
+     */
+    protected function getTopicByTopicId($topicId) {
+        $objsKunenaForumTopic = KunenaForumTopicHelper::getTopics(array($topicId));
+        if ($objsKunenaForumTopic) {
+            return array_shift($objsKunenaForumTopic);
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * get post by post id
+     *
+     * @param  Integer  $postId
+     * @return Mixed
+     */
+    protected function getPostByPostId($postId) {
+        $objsKunenaForumMessage = KunenaForumMessageHelper::getMessages(array($postId));
+        if ($objsKunenaForumMessage) {
+            return array_shift($objsKunenaForumMessage);
+        } else {
+            return false;
+        }
+    }
+    
 }
 
 ?>

@@ -51,6 +51,10 @@ Class MbqActReplyPost extends MbqBaseActReplyPost {
                             $data1 = $oMbqRdEtForumPost->returnApiDataForumPost($oMbqEtForumPost, $returnHtml);
                             MbqMain::$oMbqCm->mergeApiData($this->data, $data1);
                             $this->data['state'] = $state;
+                            $oTapatalkPush = new TapatalkPush();
+                            $oTapatalkPush->callMethod('doPushReply', array(
+                                'oMbqEtForumPost' => $oMbqEtForumPost
+                            ));
                         } else {
                             MbqError::alert('', "Can not load new post!", '', MBQ_ERR_APP);
                         }

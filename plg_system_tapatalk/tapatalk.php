@@ -118,6 +118,14 @@ class PlgSystemTapatalk extends JPlugin
     		$base	= JURI::base(false).'';
     		$buffer = JResponse::getBody();
     		
+    		if ($plugin = JPluginHelper::getPlugin('system', 'tapatalk')) {
+    		    $settings = json_decode($plugin->params);
+    		    if ($settings->app_banner_message) MbqSmartbanner::$APP_BANNER_MESSAGE = $settings->app_banner_message;
+    		    if ($settings->app_ios_id) MbqSmartbanner::$APP_IOS_ID = $settings->app_ios_id;
+    		    if ($settings->app_android_id) MbqSmartbanner::$APP_ANDROID_ID = $settings->app_android_id;
+    		    if ($settings->app_kindle_url) MbqSmartbanner::$APP_KINDLE_URL = $settings->app_kindle_url;
+    		}
+    		
     		if (MbqSmartbanner::$IS_MOBILE_SKIN) $is_mobile_skin = MbqSmartbanner::$IS_MOBILE_SKIN;
     		if (MbqSmartbanner::$APP_IOS_ID) $app_ios_id = MbqSmartbanner::$APP_IOS_ID;
     		if (MbqSmartbanner::$APP_ANDROID_ID) $app_android_id = MbqSmartbanner::$APP_ANDROID_ID;
