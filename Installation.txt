@@ -10,7 +10,8 @@
 	3. Select plg_system_tapatalk.zip under 'Upload Package File';
 	4. Click Upload & Install;
 	5. Go to Extensions > Plug-In Manager and search 'Tapatalk' using the Filter box;
-	6. Click the icon to enable Tapatalk Plugin.
+	6. Click the icon to enable Tapatalk Plugin;
+        7. If it is the first time you install our plugin for your site,please register your site in tapatalk forum owner area:http://tapatalk.com/forum_owner.php.
 
 -- Change Log
 	Kunena 3.0 Series Tapatalk Plugin Version 1.1.0 released
