@@ -10,20 +10,27 @@
 	3. Select plg_system_tapatalk.zip under 'Upload Package File';
 	4. Click Upload & Install;
 	5. Go to Extensions > Plug-In Manager and search 'Tapatalk' using the Filter box;
-	6. Click the icon to enable Tapatalk Kunena Plugin.
+	6. Click the icon to enable Tapatalk Plugin.
 
 -- Change Log
-	Kunena 3.0 Series Tapatalk Plugin Version 1.0.0 released
+	Kunena 3.0 Series Tapatalk Plugin Version 1.1.0 released
 	1.support for kunena 3.0.0/3.0.1/3.0.2;
-	2.finished some optimization work;
-        3.improved smartbanner;
-        4.improved installer;
-        5.support get thread by post/unread;
+	2.support thank,newtopic,sub push in both app and web page;
+        3.support smartbanner BYO setting in joomla backend;
+        4.improved plugin installer;
+        5.support get thread by post and get thread by unread;
         6.fixed pagination issue;
         7.fixed bug:php function realpath() can not correctly run in some sites;
+        8.improved content displaying;
+        9.updated smartbanner;
+        10.finished some compatibility work for Kunena 3.0.0/3.0.1/3.0.2;
+        11.some other modify.
+
+-- Special Instruction for PUSH feature
+	To support PUSH feature,you need get into tapatalk plugin setting page(Basic Options) of Joomla backend,select Enable Activity option to YES and input your site push key in the Push Key option,then click save.
 
 -- Special Instruction for Branded Customer
-	By default the Plugin will notify mobile users to download Tapatalk app. If you have purchased the branded license from us and wish to send mobile user to your mobile app, please config in plugin file 'mobiquo/custom/customSmartbanner.php'.
+	By default the Plugin will notify mobile users to download Tapatalk app. If you have purchased the branded license from us and wish to send mobile user to your mobile app, please config in tapatalk plugin setting page(Advanced Options) of Joomla backend.
 
 -- Github Url
         https://github.com/tapatalk/kunena3
@@ -31,4 +38,4 @@
 -- Support forum:
         https://support.tapatalk.com/forums/kunena-discussion.60/
 
-20130613
+20130901
