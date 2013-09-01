@@ -20,7 +20,7 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
-                <field name="tapatalk_push_key" type="text" default="" label="Push Key" description="Optional but Recommended. Push Key helps us to verify the origin of push notification requests we received from your server, you can obtain this value from Tapatalk Forum Owner Area. This field is optional but very helpful to make sure your Push requests are delivered to your member's mobile devices." />
+                <field name="tapatalk_push_key" type="text" default="" label="Tapatalk API Key" description="Formerly known as Push Key. This key is now required for secure connection between your community and Tapatalk server. Features such as Push Notification and Single Sign-On requires this key to work. You can obtain the key from Tapatalk Forum Owner Area." />
             </fieldset>
             <fieldset name="advanced">
                 <field name="app_banner_message" type="textarea" default="" label="BYO App Banner Message" description="E.g. &quot;Follow {your_forum_name} 
