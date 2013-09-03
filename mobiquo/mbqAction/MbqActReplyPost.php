@@ -50,7 +50,7 @@ Class MbqActReplyPost extends MbqBaseActReplyPost {
                             $this->data['result'] = true;
                             $data1 = $oMbqRdEtForumPost->returnApiDataForumPost($oMbqEtForumPost, $returnHtml);
                             MbqMain::$oMbqCm->mergeApiData($this->data, $data1);
-                            $this->data['state'] = $state;
+                            $this->data['state'] = (int) $state;
                             $oTapatalkPush = new TapatalkPush();
                             $oTapatalkPush->callMethod('doPushReply', array(
                                 'oMbqEtForumPost' => $oMbqEtForumPost
