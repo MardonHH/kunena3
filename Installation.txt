@@ -15,7 +15,7 @@
 
 -- Change Log
 	Kunena 3.0 Series Tapatalk Plugin Version 1.1.1 released
-	1.support for kunena 3.0.0/3.0.1/3.0.2;
+	1.only support for kunena 3.0.0/3.0.1/3.0.2;
 	2.changed Push Key label to Tapatalk API Key in plugin backend page.
 
 -- Special Instruction for PUSH feature
