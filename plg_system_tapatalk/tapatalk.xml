@@ -16,7 +16,7 @@
         <fields name="params">
             <fieldset name="basic">
                 <field name="tapatalk_directory" type="text" default="mobiquo" readonly="true" label="Tapatalk Plugin Directory" description="Advanced Use Only. Change it only if you did rename the Tapatalk plugin directory. And the default value is 'mobiquo'. If you have installed Tapatalk plugin in different directory, you will also need to apply the same settings in Tapatalk Forum Owner Area at http://tapatalk.com/forum_owner.php" />
-                <field name="activity" type="list" default="1" label="Enable Activity" description="Please select Yes to enable Push feature." class="inputbox">
+                <field name="activity" type="list" default="0" label="Enable Activity" description="Please select Yes to enable Push feature." class="inputbox">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
