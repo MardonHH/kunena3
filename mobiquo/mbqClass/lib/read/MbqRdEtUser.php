@@ -95,6 +95,7 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
      * $mbqOpt['case'] = 'JUserAndKunenaUser' means init user by JUser obj and KunenaUser obj.$var['oJuser'] is JUser obj,$var['oKunenaUser'] is KunenaUser obj.
      * $mbqOpt['case'] = 'byUserId' means init user by user id.$var is user id.
      * $mbqOpt['case'] = 'byLoginName' means init user by login name.$var is login name.
+     * $mbqOpt['case'] = 'byEmail' means init user by user email.$var is user email.
      * @return  Mixed
      */
     public function initOMbqEtUser($var, $mbqOpt) {
@@ -146,6 +147,24 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
             } else {
                 return false;
             }
+        } elseif ($mbqOpt['case'] == 'byEmail') {
+            $oDb = JFactory::getDBO();
+            $query ="SELECT id FROM #__users WHERE email = ".$oDb->quote($var);
+    		$oDb->setQuery($query);
+    		$result = $oDb->loadAssocList();
+    		if ($oDb->getErrorNum()) {
+    		    MbqError::alert('', MBQ_ERR_INFO_DB_FAIL, '', MBQ_ERR_APP);
+    		} else {
+    		    if ($result) {
+    		        if (count($result) == 1) {
+    		            return $this->initOMbqEtUser($result[0]['id'], array('case' => 'byUserId'));
+    		        } else {    //too many users have same email.
+    		            MbqError::alert('', 'Sorry.Looks there are too many users have same email.', '', MBQ_ERR_APP);
+    		        }
+    		    } else {
+    		        return false;
+    		    }
+    		}
         }
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_UNKNOWN_CASE);
     }
