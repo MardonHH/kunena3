@@ -4,7 +4,7 @@
 	Get into the plg_system_tapatalk folder,compress all the files in the folder to plg_system_tapatalk.zip package.
   
 -- Installation:	
-	At First,please disable the tapatalk plugin in your Joomla! site(if it installed) and delete the mobiquo folder,and continue the following steps!
+	At First,please disable and uninstall the tapatalk plugin in your Joomla! site(if it installed) and delete the mobiquo folder,and continue the following steps!
 	1. Upload mobiquo folder to your Joomla! root folder.You should make the files under the mobiquo folder can be accessed directly through browser,otherwise the plugin may would not work;
 	2. In your Joomla! admin panel, go to Extensions > Extension Manager;
 	3. Select plg_system_tapatalk.zip under 'Upload Package File';

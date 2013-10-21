@@ -124,8 +124,8 @@ class PlgSystemTapatalk extends JPlugin
     		    if ($settings->app_ios_id) MbqSmartbanner::$APP_IOS_ID = $settings->app_ios_id;
     		    if ($settings->app_android_id) MbqSmartbanner::$APP_ANDROID_ID = $settings->app_android_id;
     		    if ($settings->app_kindle_url) MbqSmartbanner::$APP_KINDLE_URL = $settings->app_kindle_url;
+    		    MbqSmartbanner::$APP_ADS_ENABLE = $settings->tapatalk_full_banner;   //!
     		}
-    		
     		if (MbqSmartbanner::$IS_MOBILE_SKIN) $is_mobile_skin = MbqSmartbanner::$IS_MOBILE_SKIN;
     		if (MbqSmartbanner::$APP_IOS_ID) $app_ios_id = MbqSmartbanner::$APP_IOS_ID;
     		if (MbqSmartbanner::$APP_ANDROID_ID) $app_android_id = MbqSmartbanner::$APP_ANDROID_ID;
@@ -141,6 +141,13 @@ class PlgSystemTapatalk extends JPlugin
             $tapatalk_dir = MbqSmartbanner::$TAPATALKDIR;
             MbqSmartbanner::$TAPATALKDIR_URL = $base.MbqSmartbanner::$TAPATALKDIR;
             $tapatalk_dir_url = MbqSmartbanner::$TAPATALKDIR_URL;
+            $app_ads_enable = MbqSmartbanner::$APP_ADS_ENABLE ? true : false;
+            $api_key = '';
+            if ($app_ads_enable) {
+                if ($settings->tapatalk_push_key) {
+                    $api_key = $settings->tapatalk_push_key;
+                }
+            }
             if (file_exists($tapatalk_dir . '/smartbanner/head.inc.php'))
                 require_once($tapatalk_dir . '/smartbanner/head.inc.php');
             //header code
@@ -159,6 +166,8 @@ class PlgSystemTapatalk extends JPlugin
     	    return false;
     	}
 	}
+	
+	
 }
 
-?>
+?> 
