@@ -170,4 +170,4 @@ class PlgSystemTapatalk extends JPlugin
 	
 }
 
-?> 
+?>
