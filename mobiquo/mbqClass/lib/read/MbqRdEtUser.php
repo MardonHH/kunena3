@@ -31,7 +31,7 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
      * @return  Boolean  return true when login success.
      */
     public function login($loginName, $password) {
-        $result = MbqMain::$oMbqAppEnv->oApp->login(array('username' => $loginName, 'password' => $password), array('remember' => true));
+        $result = MbqMain::$oMbqAppEnv->oApp->login(array('username' => $loginName, 'password' => $password), array('remember' => false));
         if ($result) {
             MbqMain::$oMbqAppEnv->oCurJUser = JFactory::getUser();
             KunenaUserHelper::initialize();
