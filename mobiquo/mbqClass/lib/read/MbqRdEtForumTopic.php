@@ -300,7 +300,8 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             $oMbqEtForumTopic->firstPostId->setOriValue($var->first_post_id);
             $oMbqEtForumTopic->topicTitle->setOriValue($var->subject);
             $oMbqEtForumTopic->topicContent->setOriValue($var->first_post_message);
-            $oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->first_post_message));
+            //$oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->first_post_message));
+            $oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->last_post_message ? $var->last_post_message : $var->first_post_message));
             $oMbqEtForumTopic->topicAuthorId->setOriValue($var->first_post_userid);
             $oMbqEtForumTopic->lastReplyAuthorId->setOriValue($var->last_post_userid);
             //$oMbqEtForumTopic->postTime->setOriValue($var->first_post_time);
