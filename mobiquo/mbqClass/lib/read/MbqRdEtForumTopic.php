@@ -62,6 +62,14 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
                 $oMbqEtForumTopic->oLastReplyMbqEtUser = $oMbqEtUser;
             }
             break;
+            case 'byOLastReplyMbqEtUser':   /* make properties by oLastReplyMbqEtUser */
+            if ($oMbqEtForumTopic->oLastReplyMbqEtUser) {
+                if ($oMbqEtForumTopic->oLastReplyMbqEtUser->iconUrl->hasSetOriValue()) {
+                    //maybe can replace the author's icon url.
+                    $oMbqEtForumTopic->authorIconUrl->setOriValue($oMbqEtForumTopic->oLastReplyMbqEtUser->iconUrl->oriValue);
+                }
+            }
+            break;
             default:
             MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_UNKNOWN_PNAME . ':' . $pName . '.');
             break;
@@ -220,6 +228,9 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
                     }
                 }
             }
+            foreach ($objsMbqEtForumTopic as &$oMbqEtForumTopic) {
+                $this->makeProperty($oMbqEtForumTopic, 'byOLastReplyMbqEtUser');
+            }
             /* load oKunenaForumTopicUser */
             if (MbqMain::hasLogin()) {
                 $objsKunenaForumTopicUser = KunenaForumTopicUserHelper::getTopics($topicIds, MbqMain::$oCurMbqEtUser->userId->oriValue);
@@ -324,6 +335,7 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
                 $this->makeProperty($oMbqEtForumTopic, 'oLastReplyMbqEtUser');
             }
             $this->makeProperty($oMbqEtForumTopic, 'byOAuthorMbqEtUser');
+            $this->makeProperty($oMbqEtForumTopic, 'byOLastReplyMbqEtUser');
             if ($mbqOpt['oFirstMbqEtForumPost']) {
                 /* load oFirstMbqEtForumPost property */
                 $this->makeProperty($oMbqEtForumTopic, 'oFirstMbqEtForumPost');
