@@ -57,8 +57,10 @@ Class MbqConfig extends MbqBaseConfig {
         $this->cfg['base']['sys_version']->setOriValue(KunenaForum::version());
         if ($this->moduleIsEnable('user') && !MbqMain::$oMbqAppEnv->oKunenaConfig->regonly && ($this->getCfg('user.guest_okay')->oriValue == MbqBaseFdt::getFdt('MbqFdtConfig.user.guest_okay.range.support'))) {
             $this->cfg['user']['guest_okay']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.user.guest_okay.range.support'));
+            $this->cfg['forum']['guest_search']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.forum.guest_search.range.support'));
         } else {
             $this->cfg['user']['guest_okay']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.user.guest_okay.range.notSupport'));
+            $this->cfg['forum']['guest_search']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.forum.guest_search.range.notSupport'));
         }
         if ($this->moduleIsEnable('user') && MbqMain::$oMbqAppEnv->oKunenaConfig->showwhoisonline && ($this->getCfg('user.guest_whosonline')->oriValue == MbqBaseFdt::getFdt('MbqFdtConfig.user.guest_whosonline.range.support'))) {
             $this->cfg['user']['guest_whosonline']->setOriValue(MbqBaseFdt::getFdt('MbqFdtConfig.user.guest_whosonline.range.support'));
