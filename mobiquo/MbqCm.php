@@ -22,7 +22,8 @@ Class MbqCm extends MbqBaseCm {
      */
     public function datetimeIso8601Encode($timeStamp) {
         //return date("c", $timeStamp);
-        return date('Ymd\TH:i:s', $timeStamp).'+00:00';
+		return str_replace('-','',JFactory::getDate($timeStamp)->toISO8601() );
+        //return date('Ymd\TH:i:s', $timeStamp).'+00:00';
     }
     
     /**
