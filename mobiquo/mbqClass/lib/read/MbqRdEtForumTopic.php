@@ -305,7 +305,7 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
                 $var = $objsKunenaForumTopic[0];
             }
             $oMbqEtForumTopic = MbqMain::$oClk->newObj('MbqEtForumTopic');
-            $oMbqEtForumTopic->totalPostNum->setOriValue($var->posts);
+            $oMbqEtForumTopic->totalPostNum->setOriValue($var->totalPosts);
             $oMbqEtForumTopic->topicId->setOriValue($var->id);
             $oMbqEtForumTopic->forumId->setOriValue($var->category_id);
             $oMbqEtForumTopic->firstPostId->setOriValue($var->first_post_id);
