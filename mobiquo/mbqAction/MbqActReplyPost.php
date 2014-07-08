@@ -24,7 +24,12 @@ Class MbqActReplyPost extends MbqBaseActReplyPost {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
         $oMbqEtForumPost = MbqMain::$oClk->newObj('MbqEtForumPost');
-        $oMbqEtForumPost->forumId->setOriValue(MbqMain::$input[0]);
+        //$oMbqEtForumPost->forumId->setOriValue(MbqMain::$input[0]);
+		if(MbqMain::$input[0]) $oMbqEtForumPost->forumId->setOriValue(MbqMain::$input[0]);
+        else {
+            $objsKunenaForumTopic = KunenaForumTopicHelper::getTopics(array(MbqMain::$input[1]));
+            $oMbqEtForumPost->forumId->setOriValue($objsKunenaForumTopic[MbqMain::$input[1]]->category_id);
+        }
         $oMbqEtForumPost->topicId->setOriValue(MbqMain::$input[1]);
         $oMbqEtForumPost->postTitle->setOriValue(MbqMain::$input[2]);
         $oMbqEtForumPost->postContent->setOriValue(MbqMain::$input[3]);
