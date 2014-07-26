@@ -19,18 +19,21 @@ Abstract Class MbqBaseActGetBoxInfo extends MbqBaseAct {
      */
     protected function actionImplement() {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
+            $oMbqAclEtPm = MbqMain::$oClk->newObj('MbqAclEtPm');
+            if ($oMbqAclEtPm->canAclGetBoxInfo()) {    //acl judge
+                $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
+                $objsMbqEtPmBox = $oMbqRdEtPm->initOMbqEtPmBoxInfo();
+                $this->data['result'] = true;
+                $this->data['list'] = $oMbqRdEtPm->returnApiArrDataPmBox($objsMbqEtPmBox);
+                $this->data['message_room_count'] = (int) $oMbqRdEtPm->getTotalMessage();
+                //k($this->data);
+            } else {
+                MbqError::alert('', '', '', MBQ_ERR_APP);
+            }
         } else {
             MbqError::alert('', "Not support module private message!", '', MBQ_ERR_NOT_SUPPORT);
         }        
-        $oMbqAclEtPm = MbqMain::$oClk->newObj('MbqAclEtPm');
-        if ($oMbqAclEtPm->canAclGetBoxInfo()) {    //acl judge
-            $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
-            $objsMbqEtPmBox = $oMbqRdEtPm->getObjsMbqEtPmBox();
-            $this->data['result'] = true;
-            $this->data['list'] = $oMbqRdEtPm->returnApiArrDataPmBox($objsMbqEtPmBox);
-        } else {
-            MbqError::alert('', '', '', MBQ_ERR_APP);
-        }
+        
     }
   
 }

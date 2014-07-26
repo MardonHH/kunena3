@@ -81,6 +81,11 @@ Class MbqAppEnv extends MbqBaseAppEnv {
         $this->oDb = JFactory::getDBO ();
         
         require_once(KPATH_SITE.'/lib/kunena.link.class.php');
+        
+        // load uddeim
+        $uapi = JPATH_SITE . '/components/com_uddeim/uddeim.api.php';
+        if (file_exists($uapi)) require_once $api;
+        
         @ ob_end_clean();
     }
     

@@ -19,10 +19,23 @@ Abstract Class MbqBaseActMarkPmUnread extends MbqBaseAct {
      */
     protected function actionImplement() {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
+            $msgId = MbqMain::$input[0];
+            $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
+            if($oCurJUser->id){
+                $oMbqWrEtPm = MbqMain::$oClk->newObj('MbqWrEtPm'); //write class
+                if($msg = $oMbqWrEtPm->markMbqEtPmUnread($oCurJUser->id, $msgId)){
+                    $this->data['result'] = true;
+                    $this->data['result_text'] = (string) $msg->message;
+                }else{
+                    MbqError::alert('', "Mark message unread failed!", '', MBQ_ERR_APP);
+                }
+            }else{
+                MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+            }
         } else {
             MbqError::alert('', "Not support module private message!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
+        //MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
     }
   
 }

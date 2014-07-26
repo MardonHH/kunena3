@@ -280,6 +280,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqBaseActGetQuotePm', MBQ_BASE_ACTION_PATH.'MbqBaseActGetQuotePm.php');
         MbqMain::$oClk->reg('MbqBaseActDeleteMessage', MBQ_BASE_ACTION_PATH.'MbqBaseActDeleteMessage.php');
         MbqMain::$oClk->reg('MbqBaseActMarkPmUnread', MBQ_BASE_ACTION_PATH.'MbqBaseActMarkPmUnread.php');
+		MbqMain::$oClk->reg('MbqBaseActMarkPmRead', MBQ_BASE_ACTION_PATH.'MbqBaseActMarkPmRead.php');
         MbqMain::$oClk->reg('MbqBaseActGetThreadByPost', MBQ_BASE_ACTION_PATH.'MbqBaseActGetThreadByPost.php');
         MbqMain::$oClk->reg('MbqBaseActGetThreadByUnread', MBQ_BASE_ACTION_PATH.'MbqBaseActGetThreadByUnread.php');
         MbqMain::$oClk->reg('MbqBaseActSignIn', MBQ_BASE_ACTION_PATH.'MbqBaseActSignIn.php');
@@ -348,6 +349,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqActGetQuotePm', MBQ_ACTION_PATH.'MbqActGetQuotePm.php');
         MbqMain::$oClk->reg('MbqActDeleteMessage', MBQ_ACTION_PATH.'MbqActDeleteMessage.php');
         MbqMain::$oClk->reg('MbqActMarkPmUnread', MBQ_ACTION_PATH.'MbqActMarkPmUnread.php');
+		MbqMain::$oClk->reg('MbqActMarkPmRead', MBQ_ACTION_PATH.'MbqActMarkPmRead.php');
         MbqMain::$oClk->reg('MbqActGetThreadByPost', MBQ_ACTION_PATH.'MbqActGetThreadByPost.php');
         MbqMain::$oClk->reg('MbqActGetThreadByUnread', MBQ_ACTION_PATH.'MbqActGetThreadByUnread.php');
         MbqMain::$oClk->reg('MbqActSignIn', MBQ_ACTION_PATH.'MbqActSignIn.php');

@@ -37,7 +37,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclGetBoxInfo() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+        return MbqMain::hasLogin();
     }
     
     /**
@@ -46,7 +46,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclGetBox() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+        return MbqMain::hasLogin();
     }
     
     /**

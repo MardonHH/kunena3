@@ -19,10 +19,11 @@ Abstract Class MbqBaseActReportPm extends MbqBaseAct {
      */
     protected function actionImplement() {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
+            MbqError::alert('', "Not support module report pm message!", '', MBQ_ERR_NOT_SUPPORT);
         } else {
             MbqError::alert('', "Not support module private message!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
+        //MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
     }
   
 }

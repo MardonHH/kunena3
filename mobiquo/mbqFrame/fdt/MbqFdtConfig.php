@@ -444,7 +444,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
         ),
         'pm' => array(
             'module_enable' => array(
-                'default' => 0,
+                'default' => 1,
                 'range' => array (
                     'enable' => 1,
                     'disable' => 0
