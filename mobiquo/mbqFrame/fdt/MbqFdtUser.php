@@ -13,7 +13,7 @@ Abstract Class MbqFdtUser extends MbqBaseFdt {
     public static $df = array(
         'MbqEtUser' => array(
             'canPm' => array(
-                'default' => false,
+                'default' => true,
                 'range' => array(
                     'yes' => true,
                     'no' => false

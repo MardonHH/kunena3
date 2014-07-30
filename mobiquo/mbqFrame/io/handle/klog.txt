@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<methodCall>
+<methodName>reply_post</methodName>
+<params><param><value><string></string></value></param>
+<param><value><string></string></value></param>
+<param><value><base64></base64></value></param>
+<param><value><base64></base64></value></param>
+<param><value><array><data><value><string></string></value></data></array></value></param>
+<param><value><string></string></value></param></params>
+</methodCall>
+
+<methodCall>
+ <methodName>reply_post</methodName>
+ <params>
+  <param>
+   <value>
+    <string></string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <string>10</string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <base64></base64>
+   </value>
+  </param>
+  <param>
+   <value>
+    <base64>VnNnZHZz</base64>
+   </value>
+  </param>
+  <param>
+   <value>
+    <array>
+     <data />
+    </array>
+   </value>
+  </param>
+  <param>
+   <value>
+    <string></string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <boolean>1</boolean>
+   </value>
+  </param>
+ </params>
+</methodCall>
+
+<methodCall>
+ <methodName>reply_post</methodName>
+ <params>
+  <param>
+   <value>
+    <string></string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <string>10</string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <base64></base64>
+   </value>
+  </param>
+  <param>
+   <value>
+    <base64>VnNnZHZz</base64>
+   </value>
+  </param>
+  <param>
+   <value>
+    <array>
+     <data />
+    </array>
+   </value>
+  </param>
+  <param>
+   <value>
+    <string></string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <boolean>1</boolean>
+   </value>
+  </param>
+ </params>
+</methodCall>
+
+<methodCall>
+ <methodName>get_thread_by_unread</methodName>
+ <params>
+  <param>
+   <value>
+    <string>10</string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <i4>10</i4>
+   </value>
+  </param>
+  <param>
+   <value>
+    <boolean>1</boolean>
+   </value>
+  </param>
+ </params>
+</methodCall>
+
+<methodCall>
+ <methodName>reply_post</methodName>
+ <params>
+  <param>
+   <value>
+    <string>5</string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <string>10</string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <base64></base64>
+   </value>
+  </param>
+  <param>
+   <value>
+    <base64>SGRoZGhk</base64>
+   </value>
+  </param>
+  <param>
+   <value>
+    <array>
+     <data />
+    </array>
+   </value>
+  </param>
+  <param>
+   <value>
+    <string></string>
+   </value>
+  </param>
+  <param>
+   <value>
+    <boolean>1</boolean>
+   </value>
+  </param>
+ </params>
+</methodCall>

@@ -22,9 +22,8 @@ Abstract Class MbqBaseWrEtPm extends MbqBaseWr {
     
     
     public function deleteMbqEtPmMessage($userid, $msgId, $boxId) {
-        if(!$userid || !$msgId || !$boxId) return false;
-        $uddeim = new uddeIMAPI();        
-        $deletetime = uddetime($uddeim->config->timezone);
+        if(!$userid || !$msgId || !$boxId) return false;        
+        $deletetime = uddetime(MbqMain::$oMbqAppEnv->pm->config->timezone);
         $database = uddeIMgetDatabase();
         if($boxId==1){
             if($database->setQuery("UPDATE #__uddeim SET totrash=1, totrashdate=".(int)$deletetime." WHERE toid=".(int)$userid." AND id=".(int)$msgId )->query())

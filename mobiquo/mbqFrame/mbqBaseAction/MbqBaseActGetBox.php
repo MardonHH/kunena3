@@ -19,28 +19,31 @@ Abstract Class MbqBaseActGetBox extends MbqBaseAct {
      */
     protected function actionImplement() {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
-            
-            $boxId = MbqMain::$input[0];
-            $startNum = (int) MbqMain::$input[1];
-            $lastNum = (int) MbqMain::$input[2];
-            $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
-            $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
+            if(MbqMain::$oMbqAppEnv->pm){
+                $boxId = MbqMain::$input[0] = 2;
+                $startNum = (int) MbqMain::$input[1];
+                $lastNum = (int) MbqMain::$input[2];
+                $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
+                $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
 
-            $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
-            if ($oMbqEtPmBox = $oMbqRdEtPm->initOMbqEtPmBox($boxId, array('case' => 'byBoxId', 'oMbqDataPage' => $oMbqDataPage ))) {
-                $this->data['result'] = true;
-                $this->data['list'] = $oMbqEtPmBox;
-            } else {
-                MbqError::alert('', "Need valid pm box id!", '', MBQ_ERR_APP);
+                $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
+                if ($oMbqEtPmBox = $oMbqRdEtPm->initOMbqEtPmBox($boxId, array('case' => 'byBoxId', 'oMbqDataPage' => $oMbqDataPage ))) {
+                    $this->data['result'] = true;
+                    $this->data['total_message_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId);
+                    $this->data['total_unread_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId, 'unread');
+                    $this->data['list'] = $oMbqEtPmBox;
+                } else {
+                    MbqError::alert('', "Need valid pm box id!", '', MBQ_ERR_APP);
+                }
+            }else{
+                MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);
             }
-            
-            
         } else {
             MbqError::alert('', "Not support module private message!", '', MBQ_ERR_NOT_SUPPORT);
-        }        
-        
+        }  
+
     }
-  
+    
 }
 
 ?>

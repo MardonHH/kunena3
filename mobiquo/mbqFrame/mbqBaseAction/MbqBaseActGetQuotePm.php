@@ -19,15 +19,19 @@ Abstract Class MbqBaseActGetQuotePm extends MbqBaseAct {
      */
     protected function actionImplement() {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
-            $msgId = MbqMain::$input[0];
-            $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
-            if($oCurJUser->id){
-                $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm'); //read class
-                $objsMbqEtQuotePm = $oMbqRdEtPm->initOMbqEtPm($msgId,  array('case' => 'byPostId'));
-                $this->data['result'] = true;
-                $this->data['result_text'] = $oMbqRdEtPm->returnApiDataPm($objsMbqEtQuotePm);
+            if(MbqMain::$oMbqAppEnv->pm){
+                $msgId = MbqMain::$input[0];
+                $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
+                if($oCurJUser->id){
+                    $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm'); //read class
+                    $objsMbqEtQuotePm = $oMbqRdEtPm->initOMbqEtPm($msgId,  array('case' => 'byPostId'));
+                    $this->data['result'] = true;
+                    $this->data['result_text'] = $oMbqRdEtPm->returnApiDataPm($objsMbqEtQuotePm);
+                }else{
+                    MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+                }
             }else{
-                MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+                MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);
             }
         } else {
             MbqError::alert('', "Not support module private message!", '', MBQ_ERR_NOT_SUPPORT);

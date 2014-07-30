@@ -30,7 +30,7 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             $data['msg_id'] = (string) $oMbqEtPm->msgId->oriValue;
         }
         if ($oMbqEtPm->msgTitle->hasSetOriValue()) {
-            $data['msg_subject'] = (string) $oMbqEtPm->msgTitle->oriValue;
+            $data['msg_subject'] = (string) '';
         }
         if ($returnHtml) {
             if ($oMbqEtPm->msgContent->hasSetTmlDisplayValue()) {
@@ -73,7 +73,7 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             $data['icon_url'] = (string) $oMbqEtPm->iconUrl->oriValue;
         }
         if ($oMbqEtPm->objsRecipientMbqEtUser) {
-            $data['msg_to'] = $oMbqEtPm->objsRecipientMbqEtUser;
+            $data['msg_to'] = (array) array($oMbqEtPm->objsRecipientMbqEtUser);
         } else {
             $data['msg_to'] = array();
         }
@@ -179,8 +179,6 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         static $list = array();
         if(!empty($list)) return $list;
         $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
-        $uddeim = new uddeIMAPI();
-        
         $type = array('inbox'=>'Inbox','sent'=>'Outbox','archive'=>'Archive');
         $i = 0;
         foreach ($type as $k=>$v){
@@ -196,7 +194,7 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
                 $list[$i]['msg_count'] = uddeIMgetInboxArchiveCount($oCurJUser->id);
                 $list[$i]['unread_count'] = 0;
             }
-            $list[$i]['box_type'] = $k; 
+            $list[$i]['box_type'] = strtoupper($k); 
             $i++;
         }
         return $list;
@@ -204,12 +202,12 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
     
     
     public function getObjsMbqEtPmBox($boxId, $oMbqDataPage){
-        $uddeim = new uddeIMAPI();
+           
         $limit = (!$oMbqDataPage->lastNum)?  $oMbqDataPage->numPerPage : $oMbqDataPage->lastNum;
         $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
-        if($boxId==1) $box = uddeIMselectInbox($oCurJUser->id, $oMbqDataPage->startNum, $limit, $uddeim->config);
-        else if($boxId==2) $box = uddeIMselectOutbox($oCurJUser->id, $oMbqDataPage->startNum, $limit, $uddeim->config);
-        else if($boxId==3) $box = uddeIMselectArchive($oCurJUser->id, $oMbqDataPage->startNum, $limit, $uddeim->config);
+        if($boxId==1) $box = uddeIMselectInbox($oCurJUser->id, $oMbqDataPage->startNum, $limit, MbqMain::$oMbqAppEnv->pm->config);
+        else if($boxId==2) $box = uddeIMselectOutbox($oCurJUser->id, $oMbqDataPage->startNum, $limit, MbqMain::$oMbqAppEnv->pm->config);
+        else if($boxId==3) $box = uddeIMselectArchive($oCurJUser->id, $oMbqDataPage->startNum, $limit, MbqMain::$oMbqAppEnv->pm->config);
         else return false;
         foreach ($box as &$b){
             $b->box_id = $boxId;
@@ -224,6 +222,8 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         
     }
     
+    
+    
 
     /**
      * init one private message box by condition
@@ -231,13 +231,16 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
      * @return  Mixed
      */
     public function initOMbqEtPmBox($var,  $mbqOpt = array('case'=> 'onPmBox')) {
+
         if(!$var) return false;
         if($mbqOpt['case'] =='onPmBox' ){
             $boxs = array();
+
             foreach ($var as $v){
                 $oMbqEtPm = MbqMain::$oClk->newObj('MbqEtPm');
                 $oMbqEtPm->boxId->setOriValue($v->box_id);
                 $oMbqEtPm->msgId->setOriValue($v->id);
+                $oMbqEtPm->msgTitle->setOriValue($v->id);
                 $oMbqEtPm->sentDate->setOriValue($v->datum);
                 $oMbqEtPm->isRead->setOriValue($v->toread);
                 $oMbqEtPm->isReply->setOriValue($v->toread);
@@ -246,10 +249,10 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
                 $oMbqEtPm->msgFrom->setOriValue($v->fromname);
                 $oMbqEtPm->isOnline->setOriValue($v->is_online);
                 $oMbqEtPm->iconUrl->setOriValue($v->icon_url);
-                //$oMbqEtPm->msgTitle->setOriValue($v->box_id);
-                //$oMbqEtPm->msgContent->setTmlDisplayValue($v->message);
-                //$oMbqEtPm->msgContent->setTmlDisplayValueNoHtml($v->message);
-                //$oMbqEtPm->userNames->setOriValue($v->fromname);
+                $oMbqEtPm->objsRecipientMbqEtUser = array(
+                        'user_id' => (string)$v->toid,
+                        'username' => (string) MbqMain::$oMbqAppEnv->oCurJUser->username,
+                );
                 $oMbqEtPm->shortContent->setOriValue($v->message);
                 $boxs[] = $this->returnApiDataPm($oMbqEtPm, false);
             }
@@ -309,10 +312,17 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         return $boxInfo[0]['msg_count'] + $boxInfo[1]['msg_count'];
     }
     
+    public function getTotalMessageInbox($boxId, $type=''){
+        $boxInfo = $this->getObjsMbqEtPmBoxs();
+        if($type=='unread') return $boxInfo[$boxId-1]['unread_count'];
+        return $boxInfo[$boxId-1]['msg_count'];
+    }
+    
+   
+    
     public function getObjsMbqEtQuotePm($msgId){
-        $uddeim = new uddeIMAPI();
         $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
-        $message =  uddeIMselectInboxMessage($oCurJUser->id, $msgId, $uddeim->config, 0);
+        $message =  uddeIMselectInboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
         return $message[0];
     }
     

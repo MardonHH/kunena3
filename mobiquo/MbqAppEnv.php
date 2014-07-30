@@ -18,7 +18,9 @@ Class MbqAppEnv extends MbqBaseAppEnv {
     public $timeOffset;
     public $oKunenaConfig;
     public $joomlaRootUrl;
-    
+    public $pm;
+
+
     public function __construct() {
         parent::__construct();
     }
@@ -84,7 +86,10 @@ Class MbqAppEnv extends MbqBaseAppEnv {
         
         // load uddeim
         $uapi = JPATH_SITE . '/components/com_uddeim/uddeim.api.php';
-        if (file_exists($uapi)) require_once $api;
+        if (file_exists($uapi)){
+            require_once $uapi;
+            $this->pm = new uddeIMAPI();
+        }
         
         @ ob_end_clean();
     }
