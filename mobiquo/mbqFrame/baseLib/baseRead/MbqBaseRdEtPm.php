@@ -223,7 +223,9 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
     }
     
     
-    
+    public function getUsername($var){
+        return JFactory::getUser($var)->username;
+    }
 
     /**
      * init one private message box by condition
@@ -235,8 +237,8 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         if(!$var) return false;
         if($mbqOpt['case'] =='onPmBox' ){
             $boxs = array();
-
             foreach ($var as $v){
+                if(!$v->toid || !$v->fromid) continue;
                 $oMbqEtPm = MbqMain::$oClk->newObj('MbqEtPm');
                 $oMbqEtPm->boxId->setOriValue($v->box_id);
                 $oMbqEtPm->msgId->setOriValue($v->id);
@@ -246,14 +248,14 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
                 $oMbqEtPm->isReply->setOriValue($v->toread);
                 $oMbqEtPm->isForward->setOriValue($v->replyid);
                 $oMbqEtPm->msgFromId->setOriValue($v->fromid);
-                $oMbqEtPm->msgFrom->setOriValue($v->fromname);
+                $oMbqEtPm->msgFrom->setOriValue($this->getUsername($v->fromid));
                 $oMbqEtPm->isOnline->setOriValue($v->is_online);
                 $oMbqEtPm->iconUrl->setOriValue($v->icon_url);
                 $oMbqEtPm->objsRecipientMbqEtUser = array(
                         'user_id' => (string)$v->toid,
-                        'username' => (string) MbqMain::$oMbqAppEnv->oCurJUser->username,
+                        'username' => (string) $this->getUsername($v->toid),
                 );
-                $oMbqEtPm->shortContent->setOriValue($v->message);
+                $oMbqEtPm->shortContent->setOriValue($this->processToDisplay(MbqMain::$oMbqCm->getShortContent($v->message),false));
                 $boxs[] = $this->returnApiDataPm($oMbqEtPm, false);
             }
             return $boxs;
@@ -261,28 +263,76 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             $box = $this->getObjsMbqEtPmBox($var, $mbqOpt['oMbqDataPage']);
             return $this->initOMbqEtPmBox($box, array('case'=> 'onPmBox', 'oMbqDataPage' => $mbqOpt['oMbqDataPage'] ));
         }else if($mbqOpt['case'] == 'byMsgId'){
-            $msg = $this->getObjsMbqEtQuotePm($var['msgId']);
+            $msg = $this->getObjsMbqEtQuotePm($var['msgId'],$var['boxId'] );
             return $this->initOMbqEtPmBox($msg, array('case'=>'onPmMsg' ));
         }else if($mbqOpt['case'] == 'onPmMsg'){
             $avatars = KunenaFactory::getAvatarIntegration();
             $oMbqEtPm = MbqMain::$oClk->newObj('MbqEtPm');
             $oMbqEtPm->msgFromId->setOriValue($var->fromid);
             $oMbqEtPm->msgId->setOriValue($var->id);
-            $oMbqEtPm->msgFrom->setOriValue($var->fromname);
+            $oMbqEtPm->msgFrom->setOriValue($this->getUsername($var->fromid));
             $oMbqEtPm->iconUrl->setOriValue($avatars->getURL($user));
             $oMbqEtPm->sentDate->setOriValue($var->datum);
-            $oMbqEtPm->msgContent->setTmlDisplayValue($var->message);
+            
+            $oMbqEtPm->msgContent->setTmlDisplayValue($this->processToDisplay($var->message));
             $oMbqEtPm->msgContent->setTmlDisplayValueNoHtml($var->message);
             $oMbqEtPm->isOnline->setOriValue(uddeIMisOnline($var->fromid));
+            
+           
             $oMbqEtPm->isRead->setOriValue($var->toread);
             $oMbqEtPm->isReply->setOriValue($var->toread);
             $oMbqEtPm->isForward->setOriValue($var->replyid);
             $oMbqEtPm->objsRecipientMbqEtUser = array(
                 'user_id' => (string)$var->toid,
-                'username' => (string) MbqMain::$oMbqAppEnv->oCurJUser->username,
+                'username' => (string) $this->getUsername($var->toid),
             );
             return $oMbqEtPm;
         }
+    }
+    
+    function processToDisplay($post, $returnHtml = true){
+        $post = MbqMain::$oMbqCm->unreplaceCodes($post, 'quote|email|ebay|map');
+        /* change the &quot; in quote bbcode to " maked by kunena! */
+        $post = preg_replace('/\[quote=&quot;(.*?)&quot;.*?\]/i', '[quote="$1"]', $post);
+    	if($returnHtml){
+            //$post = str_replace("&", '&amp;', $post);
+            //$post = str_replace("<", '&lt;', $post);
+            //$post = str_replace(">", '&gt;', $post);
+            $post = str_ireplace("[b]", '<b>', $post);
+            $post = str_ireplace("[/b]", '</b>', $post);
+            $post = str_ireplace("[i]", '<i>', $post);
+            $post = str_ireplace("[/i]", '</i>', $post);
+            $post = str_ireplace("[u]", '<u>', $post);
+            $post = str_ireplace("[/u]", '</u>', $post);
+            $post = str_replace("\r", '', $post);
+            //$post = str_replace("\n", '<br />', $post);
+            $post = str_ireplace('[hr]', '<br />____________________________________<br />', $post);
+            $post = str_ireplace('<hr />', '<br />____________________________________<br />', $post);
+    	    $post = str_ireplace('<li>', "\t\t<li>", $post);
+    	    $post = str_ireplace('</li>', "</li><br />", $post);
+    	    $post = str_ireplace('</tr>', '</tr><br />', $post);
+    	    $post = str_ireplace('</td>', "</td>\t\t", $post);
+             $post = str_ireplace('</div>', '</div><br />', $post);
+    	} else {
+    	    $post = preg_replace('/<br \/>/i', "\n", $post);
+            $post = str_ireplace('[hr]', "\n____________________________________\n", $post);
+            $post = str_ireplace('<hr />', "\n____________________________________\n", $post);
+            //$post = strip_tags($post);
+            $post = html_entity_decode($post, ENT_QUOTES, 'UTF-8');
+            $post = strip_tags($post, '<br><i><b><u><font>');
+    	}
+    	$post = trim($post);
+    	return $post;
+        /*
+        $pathtouser  = uddeIMgetPath('user');
+        require_once($pathtouser.'/bbparser.php');
+        $config = MbqMain::$oMbqAppEnv->pm->config;
+        // if system message or bbcodes allowed, call parser
+        if ($config->allowbb) $post = uddeIMbbcode_replace($post, $config);
+        if ($config->allowsmile) $post = uddeIMsmile_replace($post, $config);
+        return $post;
+         * 
+         */
     }
     
     
@@ -320,13 +370,16 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
     
    
     
-    public function getObjsMbqEtQuotePm($msgId){
+    public function getObjsMbqEtQuotePm($msgId, $boxId = 1){
         $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
-        $message =  uddeIMselectInboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
+        if($boxId==1) $message =  uddeIMselectInboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
+        elseif($boxId==2) $message =  uddeIMselectOutboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
+        elseif($boxId==3) $message =  uddeIMselectArchiveMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config);
+        else return false;
         return $message[0];
     }
     
-    
+
   
 }
 

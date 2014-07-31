@@ -20,12 +20,11 @@ Abstract Class MbqBaseActGetBox extends MbqBaseAct {
     protected function actionImplement() {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
             if(MbqMain::$oMbqAppEnv->pm){
-                $boxId = MbqMain::$input[0] = 2;
+                $boxId = MbqMain::$input[0];
                 $startNum = (int) MbqMain::$input[1];
                 $lastNum = (int) MbqMain::$input[2];
                 $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
                 $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
-
                 $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
                 if ($oMbqEtPmBox = $oMbqRdEtPm->initOMbqEtPmBox($boxId, array('case' => 'byBoxId', 'oMbqDataPage' => $oMbqDataPage ))) {
                     $this->data['result'] = true;

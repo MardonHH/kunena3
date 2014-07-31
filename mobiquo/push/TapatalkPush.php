@@ -611,6 +611,41 @@ Class TapatalkPush extends TapatalkBasePush {
         }
     }
     
+    
+    
+    /**
+     * newtopic push(include some types push)
+     *
+     * @param  Array  $p
+     * @return Boolean
+     */
+    protected function doPushNewMessage($p) {
+        $boxId = 1;
+        $msgIds = implode(',', $p['oMbqEtPmMessage']);
+        $config = MbqMain::$oMbqAppEnv->pm->config;
+        $db = JFactory::getDBO ();
+        $message = $db->setQuery("SELECT a.*, b.".($config->realnames ? "name" : "username")." AS toname "
+                . "FROM #__uddeim AS a "
+                . "LEFT JOIN #__users AS b ON a.toid=b.id "
+                . "WHERE a.fromid=".(int)$this->oJUser->id." AND a.id IN (" . $msgIds . ")")->loadObjectList();
+        
+        if($message){
+            foreach ($message as $msg){
+                $pushPack = array(
+                    'userid'    => $msg->toid,
+                    'type'      => 'pm',
+                    'id'        => $msg->id,
+                    'subid'     => $boxId,
+                    'title'     => $msg->message,
+                    'author'    => $this->oJUser->name,
+                    'dateline'  => time()
+                );
+                $push_data[] = $pushPack;
+            }
+            $this->push($push_data);
+        }
+        return false;
+    }
 }
 
 ?>

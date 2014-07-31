@@ -40,27 +40,28 @@ Abstract Class MbqBaseActCreateMessage extends MbqBaseAct {
                     }
                     $cryptmode = MbqMain::$oMbqAppEnv->pm->config->cryptmode;
                     $date  = uddetime(MbqMain::$oMbqAppEnv->pm->config->timezone);
-                    if(is_array($toName)){
-                        for ($j= 0; $j<count($toName); $j++){
-                            $toUser = JFactory::getUser($toName[$j]);
-                            $savemessage = (is_array($subject))? $subject[$j] : $subject;
-                            if($savemessage) $savemessage .= PHP_EOL;
-                            $savemessage .= (is_array($text_body))? $text_body[$j] : $text_body;
-                            if (MbqMain::$oMbqAppEnv->pm->config->cryptmode>=1) 
-                                $savemessage = strip_tags($savemessage);
-                            else 
-                                $savemessage = addslashes(strip_tags($savemessage));
-                            if($fMessage) 
-                                $savemessage .= PHP_EOL . PHP_EOL . '____________' . PHP_EOL . $fMessage[0]->message;
-                            $msg_id[] = uddeIMsaveRAWmessage($oCurJUser->id, $toUser->id, $replyid, $savemessage,$date, MbqMain::$oMbqAppEnv->pm->config ,$cryptmode);
-                        }
-                    }else{
-                        MbqError::alert('', "Input data not array!", '', MBQ_ERR_APP);
+                    for ($j= 0; $j<count($toName); $j++){
+                        $toUser = JFactory::getUser($toName[$j]);
+                        $savemessage = (is_array($subject))? $subject[$j] : $subject;
+                        if($savemessage) $savemessage .= PHP_EOL;
+                        $savemessage .= (is_array($text_body))? $text_body[$j] : $text_body;
+                        if (MbqMain::$oMbqAppEnv->pm->config->cryptmode>=1) 
+                            $savemessage = strip_tags($savemessage);
+                        else 
+                            $savemessage = addslashes(strip_tags($savemessage));
+                        if($fMessage) 
+                            $savemessage .= PHP_EOL . PHP_EOL . '____________' . PHP_EOL . $fMessage[0]->message;
+                        $msg_id[] = uddeIMsaveRAWmessage($oCurJUser->id, $toUser->id, $replyid, $savemessage,$date, MbqMain::$oMbqAppEnv->pm->config ,$cryptmode);
                     }
                     if($msg_id){
                         $this->data['result'] = true;
                         $this->data['result_text'] = (string)'Sent!';
                         $this->data['msg_id'] = (string) implode(',', $msg_id);
+                        $oTapatalkPush = new TapatalkPush();
+                        $oTapatalkPush->callMethod('doPushNewMessage', array(
+                            'oMbqEtPmMessage' => $msg_id
+                        ));
+                        
                     }else{
                         MbqError::alert('', "Send message failed!", '', MBQ_ERR_APP);
                     }

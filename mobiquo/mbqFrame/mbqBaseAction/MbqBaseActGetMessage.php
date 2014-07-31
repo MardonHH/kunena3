@@ -21,17 +21,15 @@ Abstract Class MbqBaseActGetMessage extends MbqBaseAct {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
             if(MbqMain::$oMbqAppEnv->pm){
                 $msgId = MbqMain::$input[0];
-                $boxId = MbqMain::$input[1];
+                $boxId = (MbqMain::$input[1])?MbqMain::$input[1] : 1; //inbox
                 $html = MbqMain::$input[2];
                 $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
                 if($oCurJUser->id){
                     $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
                     if($msg = $oMbqRdEtPm->initOMbqEtPmBox(array('msgId'=> $msgId, 'boxId'=> $boxId), array('case' => 'byMsgId'))){
-                        $this->data = $oMbqRdEtPm->returnApiDataPm($msg, $html);
+                        $this->data = $oMbqRdEtPm->returnApiDataPm($msg, true);
                         $this->data['result'] = true;
                         $this->data['result_text'] = (string)'';
-                        //k($this->data);
-                        //$this->data['result_text'] = $oMbqRdEtPm->returnApiDataPm($msg, $html);
                     }else{
                         MbqError::alert('', "Get message failed!", '', MBQ_ERR_APP);
                     }
