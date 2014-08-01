@@ -30,7 +30,7 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             $data['msg_id'] = (string) $oMbqEtPm->msgId->oriValue;
         }
         if ($oMbqEtPm->msgTitle->hasSetOriValue()) {
-            $data['msg_subject'] = (string) '';
+            $data['msg_subject'] = (string) $oMbqEtPm->msgTitle->oriValue;
         }
         if ($returnHtml) {
             if ($oMbqEtPm->msgContent->hasSetTmlDisplayValue()) {
@@ -242,7 +242,7 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
                 $oMbqEtPm = MbqMain::$oClk->newObj('MbqEtPm');
                 $oMbqEtPm->boxId->setOriValue($v->box_id);
                 $oMbqEtPm->msgId->setOriValue($v->id);
-                $oMbqEtPm->msgTitle->setOriValue($v->id);
+                $oMbqEtPm->msgTitle->setOriValue($this->getTitleMessage($v->message));
                 $oMbqEtPm->sentDate->setOriValue($v->datum);
                 $oMbqEtPm->isRead->setOriValue($v->toread);
                 $oMbqEtPm->isReply->setOriValue($v->toread);
@@ -290,6 +290,12 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         }
     }
     
+    
+    public function getTitleMessage($message){
+        $content = explode(PHP_EOL, $message);
+        return MbqMain::$oMbqCm->getShortContent($content[0], 20);
+    }
+            
     function processToDisplay($post, $returnHtml = true){
         $post = MbqMain::$oMbqCm->unreplaceCodes($post, 'quote|email|ebay|map');
         /* change the &quot; in quote bbcode to " maked by kunena! */
@@ -376,6 +382,8 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         elseif($boxId==2) $message =  uddeIMselectOutboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
         elseif($boxId==3) $message =  uddeIMselectArchiveMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config);
         else return false;
+        $oMbqWrEtPm = MbqMain::$oClk->newObj('MbqWrEtPm'); //write class
+        $oMbqWrEtPm->markMbqEtPmRead($oCurJUser->id, $msgId);
         return $message[0];
     }
     

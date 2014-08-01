@@ -1,0 +1,111 @@
+
+
+
+Object (
+    id=>10
+    unread=>0
+    lastread=>0
+    category_id=>5
+    subject=>Test 11h00
+    icon_id=>0
+    locked=>0
+    hold=>0
+    ordering=>0
+    posts=>20
+    hits=>15
+    attachments=>0
+    poll_id=>0
+    moved_id=>0
+    first_post_id=>11
+    first_post_time=>1404302132
+    first_post_userid=>623
+    first_post_message=>Te
+    first_post_guest_name=>dev
+    last_post_id=>34
+    last_post_time=>1404833539
+    last_post_userid=>622
+    last_post_message=>fsdffdsfsfds
+    last_post_guest_name=>admin
+    params=>
+)
+Object (
+    id=>10
+    unread=>0
+    lastread=>0
+    category_id=>5
+    subject=>Test 11h00
+    icon_id=>0
+    locked=>0
+    hold=>0
+    ordering=>0
+    posts=>21
+    hits=>15
+    attachments=>0
+    poll_id=>0
+    moved_id=>0
+    first_post_id=>11
+    first_post_time=>1404302132
+    first_post_userid=>623
+    first_post_message=>Te
+    first_post_guest_name=>dev
+    last_post_id=>35
+    last_post_time=>1404834968
+    last_post_userid=>623
+    last_post_message=>Hdgdgd
+    last_post_guest_name=>dev
+    params=>
+)
+Object (
+    id=>10
+    unread=>0
+    lastread=>0
+    category_id=>5
+    subject=>Test 11h00
+    icon_id=>0
+    locked=>0
+    hold=>0
+    ordering=>0
+    posts=>22
+    hits=>15
+    attachments=>0
+    poll_id=>0
+    moved_id=>0
+    first_post_id=>11
+    first_post_time=>1404302132
+    first_post_userid=>623
+    first_post_message=>Te
+    first_post_guest_name=>dev
+    last_post_id=>36
+    last_post_time=>1404835034
+    last_post_userid=>623
+    last_post_message=>Hdhd
+    last_post_guest_name=>dev
+    params=>
+)
+Object (
+    id=>10
+    unread=>0
+    lastread=>0
+    category_id=>5
+    subject=>Test 11h00
+    icon_id=>0
+    locked=>0
+    hold=>0
+    ordering=>0
+    posts=>23
+    hits=>15
+    attachments=>0
+    poll_id=>0
+    moved_id=>0
+    first_post_id=>11
+    first_post_time=>1404302132
+    first_post_userid=>623
+    first_post_message=>Te
+    first_post_guest_name=>dev
+    last_post_id=>37
+    last_post_time=>1404835413
+    last_post_userid=>623
+    last_post_message=>Gsgsd
+    last_post_guest_name=>dev
+    params=>
+)
