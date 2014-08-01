@@ -14,9 +14,22 @@ jimport('joomla.plugin.plugin');
 class PlgSystemTapatalk extends JPlugin
 {
     
-    public function onKunenaGetActivity() {
+    function __construct(&$subject, $config = array()) {
+        parent::__construct($subject, $config);
+        
         if (!$this->params->get('activity', 1)) return null;    //!!!
         require_once __DIR__ . "/activity.php";
+        // load uddeim
+        $uapi = JPATH_SITE . '/components/com_uddeim/uddeim.api.php';
+        if (file_exists($uapi)){
+            require_once $uapi;
+            $pm = new uddeIMAPI();
+            $pm->registerHook('onSaveMessage', 'doPmNewMessage');
+        }
+    }
+    
+    public function onKunenaGetActivity() {
+        if (!$this->params->get('activity', 1)) return null;    //!!!
         return new KunenaActivityTapatalk($this->params);
     }
     

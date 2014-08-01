@@ -646,6 +646,12 @@ Class TapatalkPush extends TapatalkBasePush {
         }
         return false;
     }
+    
+    protected function doPushCustomMessage($push_data) {
+        $this->push($push_data);
+        return false;
+    }
+    
 }
 
 ?>
