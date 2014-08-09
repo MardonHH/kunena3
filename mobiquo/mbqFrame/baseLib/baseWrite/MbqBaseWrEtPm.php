@@ -16,12 +16,20 @@ Abstract Class MbqBaseWrEtPm extends MbqBaseWr {
     /**
      * add private message
      */
-    public function addMbqEtPm() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function addMbqEtPm($fromid, $toid, $replyid, $message, $date, $config, $cryptmode) {
+        $message = $this->processToSave($message);
+        $msgId = uddeIMsaveRAWmessage($fromid, $toid, $replyid, $message, $date, $config, $cryptmode);
+        return $msgId;
     }
     
-    
-    public function deleteMbqEtPmMessage($userid, $msgId, $boxId) {
+    public function processToSave($message){
+        //$message = preg_replace('/\[img\](.*?)\[\/img\]/i', '<img alt="" src="$1"/>', $message);
+        return $message;
+    }
+
+    public function deleteMbqEtPmMessage($userid, $msgId, $boxId = 0) {
+        $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
+        if(!$boxId) $boxId = $oMbqRdEtPm->getObjsMbqEtBoxId($msgId);
         if(!$userid || !$msgId || !$boxId) return false;        
         $deletetime = uddetime(MbqMain::$oMbqAppEnv->pm->config->timezone);
         $database = uddeIMgetDatabase();
@@ -36,7 +44,9 @@ Abstract Class MbqBaseWrEtPm extends MbqBaseWr {
         //uddeIMpurgeMessageFromUser($fromid, $messageid);
     }
     
+
     
+
     public function markMbqEtPmUnread($userid, $msgId){
         $database = uddeIMgetDatabase();
 	if($database->setQuery("UPDATE #__uddeim SET toread=0 WHERE toid=".(int)$userid." AND id=".(int)$msgId)->query())

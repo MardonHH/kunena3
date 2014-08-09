@@ -21,7 +21,7 @@ Abstract Class MbqBaseActGetMessage extends MbqBaseAct {
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
             if(MbqMain::$oMbqAppEnv->pm){
                 $msgId = MbqMain::$input[0];
-                $boxId = (MbqMain::$input[1])?MbqMain::$input[1] : 1; //inbox
+                $boxId = MbqMain::$input[1];
                 $html = MbqMain::$input[2];
                 $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
                 if($oCurJUser->id){
@@ -34,7 +34,7 @@ Abstract Class MbqBaseActGetMessage extends MbqBaseAct {
                         MbqError::alert('', "Get message failed!", '', MBQ_ERR_APP);
                     }
                 }else{
-                    MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+                    MbqError::alert('', "Please login to get message!", '', MBQ_ERR_APP);
                 }
             }else{
                 MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);

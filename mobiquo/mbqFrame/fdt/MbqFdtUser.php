@@ -20,7 +20,7 @@ Abstract Class MbqFdtUser extends MbqBaseFdt {
                 )
             ),
             'canSendPm' => array(
-                'default' => false,
+                'default' => true,
                 'range' => array(
                     'yes' => true,
                     'no' => false

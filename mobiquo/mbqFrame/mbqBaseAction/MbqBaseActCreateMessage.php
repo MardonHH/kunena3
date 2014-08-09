@@ -18,21 +18,21 @@ Abstract Class MbqBaseActCreateMessage extends MbqBaseAct {
      * action implement
      */
     protected function actionImplement() {
-        $toName = (array) MbqMain::$input[0]; //array($input['user_name']);
-        $subject = MbqMain::$input[1];//$input['subject'];
-        $text_body = MbqMain::$input[2]; //$input['text_body'];
-        $action = MbqMain::$input[3]; //$input['action'];
-        $replyid    =         (int) MbqMain::$input[4]; //$input['pm_id']; 
+        $toName = (array) MbqMain::$input[0];
+        $subject = MbqMain::$input[1];
+        $text_body = MbqMain::$input[2];
+        $action = MbqMain::$input[3];
+        $replyid    =         (int) MbqMain::$input[4]; 
         if (MbqMain::$oMbqConfig->moduleIsEnable('pm')) {
             if(MbqMain::$oMbqAppEnv->pm){
                 $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
                 if($oCurJUser->id){
                     $toUser = $msg_id = array();
-                    $fMessage= '';
                     switch ($action){
                         case 1: //REPLY to a message
                         case 2: // FORWARD to a message
-                            $fMessage = uddeIMselectInboxMessage($oCurJUser->id, $replyid, MbqMain::$oMbqAppEnv->pm->config, 0);
+                            //$oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
+                            //$fMessage = $oMbqRdEtPm->getObjsMbqEtQuotePm($replyid);
                             break;
                         default : // SEND new message
                             $replyid = 0;
@@ -43,19 +43,19 @@ Abstract Class MbqBaseActCreateMessage extends MbqBaseAct {
                     for ($j= 0; $j<count($toName); $j++){
                         $toUser = JFactory::getUser($toName[$j]);
                         $savemessage = (is_array($subject))? $subject[$j] : $subject;
-                        if($savemessage) $savemessage .= PHP_EOL;
+                        if($savemessage) $savemessage .= PHP_EOL . ' ';
                         $savemessage .= (is_array($text_body))? $text_body[$j] : $text_body;
                         if (MbqMain::$oMbqAppEnv->pm->config->cryptmode>=1) 
                             $savemessage = strip_tags($savemessage);
                         else 
                             $savemessage = addslashes(strip_tags($savemessage));
-                        if($fMessage) 
-                            $savemessage .= PHP_EOL . PHP_EOL . '____________' . PHP_EOL . $fMessage[0]->message;
-                        $msg_id[] = uddeIMsaveRAWmessage($oCurJUser->id, $toUser->id, $replyid, $savemessage,$date, MbqMain::$oMbqAppEnv->pm->config ,$cryptmode);
+                        //if($fMessage) $savemessage .= PHP_EOL . PHP_EOL . '____________' . PHP_EOL . $fMessage->message;
+                        $oMbqWrEtPm = MbqMain::$oClk->newObj('MbqWrEtPm'); //write class
+                        $msg_id[] = $oMbqWrEtPm->addMbqEtPm($oCurJUser->id, $toUser->id, $replyid, $savemessage,$date, MbqMain::$oMbqAppEnv->pm->config ,$cryptmode);
+                        
                     }
                     if($msg_id){
                         $this->data['result'] = true;
-                        $this->data['result_text'] = (string)'Sent!';
                         $this->data['msg_id'] = (string) implode(',', $msg_id);
                         $oTapatalkPush = new TapatalkPush();
                         $oTapatalkPush->callMethod('doPushNewMessage', array(
@@ -66,7 +66,7 @@ Abstract Class MbqBaseActCreateMessage extends MbqBaseAct {
                         MbqError::alert('', "Send message failed!", '', MBQ_ERR_APP);
                     }
                 } else {
-                    MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+                    MbqError::alert('', "Please login to send message!", '', MBQ_ERR_APP);
                 }
             }else{
                 MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);

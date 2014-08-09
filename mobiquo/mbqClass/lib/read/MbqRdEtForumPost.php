@@ -372,6 +372,9 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
      * @return  String
      */
     public function processContentForDisplay($content, $returnHtml, $oMbqEtForumPost) {
+        //return $content;
+        $protocol = 'https';
+        
         /*
         support bbcode:url/img/quote
         support html:br/i/b/u/font+color(red/blue)
@@ -501,6 +504,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	    $post = strip_tags($post);
         }
     	$post = trim($post);
+        //$post= preg_replace('/\[emoji(\d+)\]/i', '<img src="'.$protocol.'://s3.amazonaws.com/tapatalk-emoji/emoji\1.png" />', $post);
     	return $post;
     }
     

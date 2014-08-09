@@ -27,7 +27,6 @@ Abstract Class MbqBaseActGetBoxInfo extends MbqBaseAct {
                     $this->data['result'] = true;
                     $this->data['list'] = $oMbqRdEtPm->returnApiArrDataPmBox($objsMbqEtPmBox);
                     $this->data['message_room_count'] = (int) $oMbqRdEtPm->getTotalMessage();
-                    //k($this->data);
                 } else {
                     MbqError::alert('', '', '', MBQ_ERR_APP);
                 }

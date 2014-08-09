@@ -22,7 +22,7 @@ Abstract Class MbqBaseActLogin extends MbqBaseAct {
             MbqError::alert('', "Not support module user!", '', MBQ_ERR_NOT_SUPPORT);
         }
         $oMbqRdEtUser = MbqMain::$oClk->newObj('MbqRdEtUser');
-        $result = $oMbqRdEtUser->login(MbqMain::$input[0], MbqMain::$input[1]);
+        $result = $oMbqRdEtUser->login(MbqMain::$input[0], MbqMain::$input[1]); 
         if ($result) {
             $this->data['result'] = true;
             $data1 = $oMbqRdEtUser->returnApiDataUser(MbqMain::$oCurMbqEtUser);
@@ -30,7 +30,7 @@ Abstract Class MbqBaseActLogin extends MbqBaseAct {
             $oTapatalkPush = new TapatalkPush();
             $oTapatalkPush->callMethod('doAfterAppLogin');
         } else {
-            $this->data['result'] = false;
+            MbqError::alert('', "Username and password do not match or you do not have an account yet.", '', MBQ_ERR_APP);
         }
     }
   

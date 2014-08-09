@@ -113,12 +113,14 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         if ($mbqOpt['case'] == 'onPmMessage') {
             $oMbqEtQuotePm = MbqMain::$oClk->newObj('MbqEtPm');
             $oMbqEtQuotePm->msgId->setOriValue($var->id);
+            $oMbqEtQuotePm->msgTitle->setOriValue($this->getTitleMessage($var->message));
             $oMbqEtQuotePm->msgContent->setOriValue($var->message);
-            $oMbqEtQuotePm->msgContent->setTmlDisplayValue($var->message);
+            $message = PHP_EOL . PHP_EOL . '____________' . PHP_EOL . $this->processToDisplay($var->message, false);
+            $oMbqEtQuotePm->msgContent->setTmlDisplayValue($message);
             return $oMbqEtQuotePm;
         }else if($mbqOpt['case'] =='message'){
             $oMbqEtQuotePm = MbqMain::$oClk->newObj('MbqEtPm');
-            $oMbqEtQuotePm->msgContent->setOriValue($var->message);
+            $oMbqEtQuotePm->msgContent->setOriValue($this->processToDisplay($var->message));
             return $oMbqEtQuotePm;
         }else if ($mbqOpt['case'] == 'byPostId'){
             $message = $this->getObjsMbqEtQuotePm($var);
@@ -213,7 +215,8 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             $b->box_id = $boxId;
             $b->is_online = uddeIMisOnline($b->fromid);
             $avatars = KunenaFactory::getAvatarIntegration();
-            $b->icon_url = $avatars->getURL($user);
+            if($boxId==1)$b->icon_url = $avatars->getURL(JFactory::getUser($b->fromid));
+            else $b->icon_url = $avatars->getURL(JFactory::getUser($b->toid));
         }
         return $box;
     }
@@ -233,7 +236,6 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
      * @return  Mixed
      */
     public function initOMbqEtPmBox($var,  $mbqOpt = array('case'=> 'onPmBox')) {
-
         if(!$var) return false;
         if($mbqOpt['case'] =='onPmBox' ){
             $boxs = array();
@@ -270,15 +272,13 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             $oMbqEtPm = MbqMain::$oClk->newObj('MbqEtPm');
             $oMbqEtPm->msgFromId->setOriValue($var->fromid);
             $oMbqEtPm->msgId->setOriValue($var->id);
+            $oMbqEtPm->msgTitle->setOriValue($this->getTitleMessage($var->message));
             $oMbqEtPm->msgFrom->setOriValue($this->getUsername($var->fromid));
-            $oMbqEtPm->iconUrl->setOriValue($avatars->getURL($user));
+            $oMbqEtPm->iconUrl->setOriValue($avatars->getURL(JFactory::getUser($var->fromid)));
             $oMbqEtPm->sentDate->setOriValue($var->datum);
-            
             $oMbqEtPm->msgContent->setTmlDisplayValue($this->processToDisplay($var->message));
             $oMbqEtPm->msgContent->setTmlDisplayValueNoHtml($var->message);
             $oMbqEtPm->isOnline->setOriValue(uddeIMisOnline($var->fromid));
-            
-           
             $oMbqEtPm->isRead->setOriValue($var->toread);
             $oMbqEtPm->isReply->setOriValue($var->toread);
             $oMbqEtPm->isForward->setOriValue($var->replyid);
@@ -293,17 +293,20 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
     
     public function getTitleMessage($message){
         $content = explode(PHP_EOL, $message);
-        return MbqMain::$oMbqCm->getShortContent($content[0], 20);
+        return MbqMain::$oMbqCm->getShortContent($content[0], 30);
     }
             
     function processToDisplay($post, $returnHtml = true){
         $post = MbqMain::$oMbqCm->unreplaceCodes($post, 'quote|email|ebay|map');
         /* change the &quot; in quote bbcode to " maked by kunena! */
         $post = preg_replace('/\[quote=&quot;(.*?)&quot;.*?\]/i', '[quote="$1"]', $post);
+        $pathtouser  = uddeIMgetPath('user');
+        require_once($pathtouser.'/bbparser.php');
+        $config = MbqMain::$oMbqAppEnv->pm->config;
     	if($returnHtml){
-            //$post = str_replace("&", '&amp;', $post);
-            //$post = str_replace("<", '&lt;', $post);
-            //$post = str_replace(">", '&gt;', $post);
+            //$post = preg_replace('/<img .*?src="(.*?)" .*?\/>/i', '[img]$1[/img]', $post);
+            //replace image insser from mobile
+            $post = preg_replace("/<img[^>]+src\s*=\s*[\"']\/?([^\"']+)[\"'][^>]*\>/i", '[img]$1[/img]', $post);
             $post = str_ireplace("[b]", '<b>', $post);
             $post = str_ireplace("[/b]", '</b>', $post);
             $post = str_ireplace("[i]", '<i>', $post);
@@ -314,12 +317,17 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
             //$post = str_replace("\n", '<br />', $post);
             $post = str_ireplace('[hr]', '<br />____________________________________<br />', $post);
             $post = str_ireplace('<hr />', '<br />____________________________________<br />', $post);
-    	    $post = str_ireplace('<li>', "\t\t<li>", $post);
-    	    $post = str_ireplace('</li>', "</li><br />", $post);
-    	    $post = str_ireplace('</tr>', '</tr><br />', $post);
-    	    $post = str_ireplace('</td>', "</td>\t\t", $post);
-             $post = str_ireplace('</div>', '</div><br />', $post);
+            $post = str_ireplace('<li>', "\t\t<li>", $post);
+            $post = str_ireplace('</li>', "</li><br />", $post);
+            $post = str_ireplace('</tr>', '</tr><br />', $post);
+            $post = str_ireplace('</td>', "</td>\t\t", $post);
+            $post = str_ireplace('</div>', '</div><br />', $post);
+            // if system message or bbcodes allowed, call parser
+            if ($config->allowbb) $post = uddeIMbbcode_replace($post, $config);
+            //if ($config->allowsmile) $post = uddeIMsmile_replace($post, $config);
+            //$post = preg_replace("/<img[^>]+src\s*=\s*[\"']\/?([^\"']+)[\"'][^>]*\>/i", '[img]$1[/img]', $post);
     	} else {
+            $post = uddeIMbbcode_strip($post);
     	    $post = preg_replace('/<br \/>/i', "\n", $post);
             $post = str_ireplace('[hr]', "\n____________________________________\n", $post);
             $post = str_ireplace('<hr />', "\n____________________________________\n", $post);
@@ -329,16 +337,9 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
     	}
     	$post = trim($post);
     	return $post;
-        /*
-        $pathtouser  = uddeIMgetPath('user');
-        require_once($pathtouser.'/bbparser.php');
-        $config = MbqMain::$oMbqAppEnv->pm->config;
-        // if system message or bbcodes allowed, call parser
-        if ($config->allowbb) $post = uddeIMbbcode_replace($post, $config);
-        if ($config->allowsmile) $post = uddeIMsmile_replace($post, $config);
-        return $post;
-         * 
-         */
+      
+        
+        
     }
     
     
@@ -374,10 +375,23 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
         return $boxInfo[$boxId-1]['msg_count'];
     }
     
-   
-    
-    public function getObjsMbqEtQuotePm($msgId, $boxId = 1){
+    public function getObjsMbqEtMessage($msgId){
+        if(!$msgId) return false;
+        $database = uddeIMgetDatabase();
+        return $database->setQuery('SELECT * FROM #__uddeim WHERE id='.$msgId)->loadObject();
+    }
+
+    public function getObjsMbqEtBoxId($msgId){
+        $message = $this->getObjsMbqEtMessage($msgId);
         $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
+        if($oCurJUser->id == $message->toid) return 1;
+        if($oCurJUser->id == $message->fromid) return 2;
+        return 3;
+    }
+
+    public function getObjsMbqEtQuotePm($msgId, $boxId = 0){
+        $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
+        if(!$boxId) $boxId = $this->getObjsMbqEtBoxId ($msgId);
         if($boxId==1) $message =  uddeIMselectInboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
         elseif($boxId==2) $message =  uddeIMselectOutboxMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config, 0);
         elseif($boxId==3) $message =  uddeIMselectArchiveMessage($oCurJUser->id, $msgId, MbqMain::$oMbqAppEnv->pm->config);

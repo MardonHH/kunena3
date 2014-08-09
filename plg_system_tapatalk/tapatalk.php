@@ -123,10 +123,17 @@ class PlgSystemTapatalk extends JPlugin
     	    return false;
     	}
     	*/
-    	
+    	$task = $app->input->getCmd('task');
+        $option = $app->input->getCmd('option');
+        if($option =='com_uddeim' && ($task=='show' || $task=='showout' )){
+            $buffer = JResponse::getBody();
+            $buffer = preg_replace('/\[img\](.*?)\[\/img\]/i', '<img alt="" src="$1"/>', $buffer);
+            JResponse::setBody($buffer);
+        }
+                
     	//smartbanner
         $pathSmartbanner = 'mobiquo/custom/customSmartbanner.php';
-        if (JRequest::getCmd('option') == 'com_kunena' && is_file($pathSmartbanner)) {
+        if ($option == 'com_kunena' && is_file($pathSmartbanner)) {
             require_once($pathSmartbanner);
     		$base	= JURI::base(false).'';
     		$buffer = JResponse::getBody();
@@ -172,7 +179,7 @@ class PlgSystemTapatalk extends JPlugin
             $str .= '<script type="text/javascript">tapatalkDetect();</script>';
             $str .= '<!-- Tapatalk Banner body end -->';
             $buffer = preg_replace('/<body([^>]*?)>/i', '<body$1>'.$str, $buffer, 1);
-    
+            $buffer = preg_replace('/\[img\](.*?)\[\/img\]/i', '<img alt="" src="$1"/>', $buffer);
     		JResponse::setBody($buffer);
     		return true;
     	} else {

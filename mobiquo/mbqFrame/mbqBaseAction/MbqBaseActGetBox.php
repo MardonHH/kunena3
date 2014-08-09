@@ -25,14 +25,19 @@ Abstract Class MbqBaseActGetBox extends MbqBaseAct {
                 $lastNum = (int) MbqMain::$input[2];
                 $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
                 $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
-                $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
-                if ($oMbqEtPmBox = $oMbqRdEtPm->initOMbqEtPmBox($boxId, array('case' => 'byBoxId', 'oMbqDataPage' => $oMbqDataPage ))) {
-                    $this->data['result'] = true;
-                    $this->data['total_message_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId);
-                    $this->data['total_unread_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId, 'unread');
-                    $this->data['list'] = $oMbqEtPmBox;
-                } else {
-                    MbqError::alert('', "Need valid pm box id!", '', MBQ_ERR_APP);
+                $oMbqAclEtPm = MbqMain::$oClk->newObj('MbqAclEtPm');
+                if($oMbqAclEtPm->canAclGetBox()){
+                    $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm');
+                    if ($oMbqEtPmBox = $oMbqRdEtPm->initOMbqEtPmBox($boxId, array('case' => 'byBoxId', 'oMbqDataPage' => $oMbqDataPage ))) {
+                        $this->data['result'] = true;
+                        $this->data['total_message_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId);
+                        $this->data['total_unread_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId, 'unread');
+                        $this->data['list'] = $oMbqEtPmBox;
+                    } else {
+                        MbqError::alert('', "Need valid pm box id!", '', MBQ_ERR_APP);
+                    }
+                }else{
+                    MbqError::alert('', "Please login to get box!", '', MBQ_ERR_APP);
                 }
             }else{
                 MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);

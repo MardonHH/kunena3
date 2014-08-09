@@ -28,7 +28,7 @@ Abstract Class MbqBaseActGetThread extends MbqBaseAct {
         $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
         $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
         $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
-        if ($oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'))) {
+        if ($oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'))) { 
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclGetThread($oMbqEtForumTopic)) {    //acl judge
                 $oMbqRdEtForumPost = MbqMain::$oClk->newObj('MbqRdEtForumPost');

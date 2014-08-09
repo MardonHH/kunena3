@@ -24,11 +24,14 @@ Abstract Class MbqBaseActGetQuotePm extends MbqBaseAct {
                 $oCurJUser = MbqMain::$oMbqAppEnv->oCurJUser;
                 if($oCurJUser->id){
                     $oMbqRdEtPm = MbqMain::$oClk->newObj('MbqRdEtPm'); //read class
-                    $objsMbqEtQuotePm = $oMbqRdEtPm->initOMbqEtPm($msgId,  array('case' => 'byPostId'));
-                    $this->data['result'] = true;
-                    $this->data['result_text'] = $oMbqRdEtPm->returnApiDataPm($objsMbqEtQuotePm);
+                    if($objsMbqEtQuotePm = $oMbqRdEtPm->initOMbqEtPm($msgId,  array('case' => 'byPostId'))){
+                        $this->data = $oMbqRdEtPm->returnApiDataPm($objsMbqEtQuotePm);
+                        $this->data['result'] = true;
+                    }else{
+                        MbqError::alert('', "Get quote Pm fail!", '', MBQ_ERR_APP);
+                    }
                 }else{
-                    MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+                    MbqError::alert('', "Please login to get quote Pm!", '', MBQ_ERR_APP);
                 }
             }else{
                 MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);

@@ -32,7 +32,7 @@ Abstract Class MbqBaseActDeleteMessage extends MbqBaseAct {
                         MbqError::alert('', "Delete message failed!", '', MBQ_ERR_APP);
                     }
                 }else{
-                    MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
+                    MbqError::alert('', "Please login to delete message!", '', MBQ_ERR_APP);
                 }
             }else{
                 MbqError::alert('', "You not install component uddeim!", '', MBQ_ERR_APP);
