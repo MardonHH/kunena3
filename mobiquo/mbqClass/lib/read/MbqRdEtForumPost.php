@@ -374,7 +374,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     public function processContentForDisplay($content, $returnHtml, $oMbqEtForumPost) {
         //return $content;
         $protocol = 'https';
-        
+       
         /*
         support bbcode:url/img/quote
         support html:br/i/b/u/font+color(red/blue)
@@ -413,6 +413,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             // strip remaining bbcode
             //$post = preg_replace('/\[\/?.*?\]/i', '', $post);
     	}
+        
     	$post = preg_replace('/\[quote="(.*?)".*?\]/i', '$1 wrote:[quote]', $post);
     	$post = preg_replace('/<div class="kmsgtext-quote">(.*?)<\/div>/i', '[quote]$1[/quote]', $post);
     	$post = preg_replace('/<div class="highlight"><pre xml\:php>(.*?)<\/pre><\/div>/i', '[quote]$1[/quote]', $post);
@@ -449,6 +450,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	$post = preg_replace('/<img [^>]*?src="[^>]*?whistling.png" [^>]*?class="bbcode_smiley" \/>/i', ':whistle:', $post);
     	$post = preg_replace('/<img [^>]*?src="[^>]*?pinch.png" [^>]*?class="bbcode_smiley" \/>/i', ':pinch:', $post);
     	/* replace the expression end */
+        
     	//$post = preg_replace('/<img .*?src="(.*?)"{1,2} .*?\/>/i', '[img]$1[/img]', $post);
     	$post = preg_replace('/<img .*?src="(.*?)" .*?\/>/i', '[img]$1[/img]', $post);
     	$post = preg_replace('/<a .*?href="(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
@@ -460,14 +462,16 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	$post = str_ireplace('</strong>', '</b>', $post);
     	$post = preg_replace_callback('/<span style=\"color:(\#.*?)\">(.*?)<\/span>/is', create_function('$matches','return MbqMain::$oMbqCm->mbColorConvert($matches[1], $matches[2]);'), $post);
     	$post = preg_replace('/<span style=\"color:(.*?)\">(.*?)<\/span>/is', '<font color="$1">$2</font>', $post);
-    	$post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?><\/embed><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
+    	$post = preg_replace('/<object .*?\>.*?<embed[^>]+src\s*=\s*[\'"]\/?([^\'"]+)[\'"][^>]*\><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
         $post = preg_replace('/<iframe .*?src="(.*?)".*?\/><\/iframe>/si', "[url=$1]$1[/url]", $post);    /* for youtube content */
     	$post = preg_replace('/<div class="bbcode_indent" .*?>(.*?)<\/div>/is', "\t\t".'$1', $post);
     	$post = preg_replace('/<div class="kspoiler".*?><div class="kspoiler\-header".*?>.*?<\/div><div class="kspoiler\-wrapper".*?><div class="kspoiler\-content".*?>(.*?)<\/div><\/div><\/div>/i', '[spoiler]$1[/spoiler]', $post);
-    	if ($returnHtml) {
+        if ($returnHtml) {
     	    $post = str_ireplace('</div>', '</div><br />', $post);
     	    $post = strip_tags($post, '<br><i><b><u><font>');
+            
     	    if (KunenaForum::version() == '2.0.1') {
+                
         	    //$post = preg_replace_callback('/\[url=(.*?)\](.*?)\[\/url\]/i', create_function('$matches','return "[url=".str_ireplace("&", "&amp;", $matches[1])."]".str_ireplace("&", "&amp;", $matches[2])."[/url]";'), $post);
         	    $post = preg_replace_callback('/\[url=(.*?)\](.*?)\[\/url\]/i', create_function('$matches','return "[url=".str_ireplace("&amp;", "&", $matches[1])."]".$matches[2]."[/url]";'), $post);   //!!!sometimes contain &amp;
         	    $post = preg_replace_callback('/\[url=(.*?)\](.*?)\[\/url\]/i', create_function('$matches','return "[url=".str_ireplace("&", "&amp;", $matches[1])."]".str_ireplace("&", "&amp;", $matches[2])."[/url]";'), $post);
@@ -481,12 +485,17 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         	} else {    //kunena version > 2.0.1
         	    //$post = preg_replace_callback('/\[url=(.*?)\](.*?)\[\/url\]/i', create_function('$matches','return "[url=".$matches[1]."]".str_ireplace("&", "&amp;", $matches[2])."[/url]";'), $post);
         	    //$post = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$matches','return "[img]".str_ireplace("&", "&amp;", $matches[1])."[/img]";'), $post);
-        	    $post = str_replace("&", '&amp;', $post);
+        	    
+                    
+                    $post = str_replace("&", '&amp;', $post);
         	    $post = str_ireplace('&amp;amp;', '&amp;', $post);
         	    $post = str_ireplace('&amp;lt;', '&lt;', $post);
         	    $post = str_ireplace('&amp;gt;', '&gt;', $post);
         	    $post = str_ireplace('&amp;quot;', '"', $post);
         	}
+                
+                
+                
     	    /*
     		$post = str_replace("&", '&amp;', $post);
     		$post = str_replace("<", '&lt;', $post);
@@ -504,6 +513,9 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	    $post = strip_tags($post);
         }
     	$post = trim($post);
+        
+         
+        
         //$post= preg_replace('/\[emoji(\d+)\]/i', '<img src="'.$protocol.'://s3.amazonaws.com/tapatalk-emoji/emoji\1.png" />', $post);
     	return $post;
     }

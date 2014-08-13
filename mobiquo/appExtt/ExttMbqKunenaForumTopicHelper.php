@@ -39,7 +39,7 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
                 SELECT mbqTt.id as id
                 FROM #__kunena_topics AS mbqTt
                 LEFT JOIN #__kunena_user_read AS mbqUr ON mbqTt.id=mbqUr.topic_id AND mbqUr.user_id={$db->Quote($user->userid)}
-                WHERE  (mbqUr.time IS NULL OR mbqTt.last_post_time>mbqUr.time)
+                WHERE mbqTt.last_post_time > {$db->Quote($session->lasttime)} AND (mbqUr.time IS NULL OR mbqTt.last_post_time>mbqUr.time)
                 ";
             }
         }
@@ -111,6 +111,8 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
             $query = "SELECT COUNT(*) FROM #__kunena_topics AS tt WHERE {$where}";
         $db->setQuery ( $query );
         $total = ( int ) $db->loadResult ();
+       
+        
         if (KunenaError::checkDatabaseError() || !$total) {
             KUNENA_PROFILER ? KunenaProfiler::instance()->stop('function '.__CLASS__.'::'.__FUNCTION__.'()') : null;
             return array(0, array());
@@ -173,8 +175,8 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
         return array($total, $topics);
     }
     
-    static public function exttMbqFetchNewStatus($topics, $user = null) {
-		$user = KunenaUserHelper::get($user);
+    static public function exttMbqFetchNewStatus($topics, $user = null) {	
+        $user = KunenaUserHelper::get($user);
 		/*
 		if (!KunenaFactory::getConfig()->shownew || empty($topics) || !$user->exists()) {
 			return array();
@@ -187,9 +189,10 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
 		}
 		$session = KunenaFactory::getSession ();
 
+
 		$ids = array();
 		foreach ($topics as $topic) {
-			//if ($topic->last_post_time < $session->lasttime) continue;
+			if ($topic->last_post_time < $session->lasttime) continue;
 			$allreadtime = $topic->getCategory()->getUserInfo()->allreadtime;
 			if ($allreadtime && $topic->last_post_time < JFactory::getDate($allreadtime)->toUnix()) continue;
 			$ids[] = $topic->id;
@@ -204,12 +207,11 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
 			$db->setQuery ( "SELECT m.thread AS id, MIN(m.id) AS lastread, SUM(1) AS unread
 				FROM #__kunena_messages AS m
 				LEFT JOIN #__kunena_user_read AS ur ON ur.topic_id=m.thread AND user_id={$db->Quote($user->userid)}
-				WHERE m.hold=0 AND m.moved=0 AND m.thread IN ({$idstr}) AND (ur.time IS NULL OR m.time>ur.time)
+				WHERE m.hold=0 AND  m.moved=0 AND m.thread IN ({$idstr}) AND (ur.time IS NULL OR m.time>ur.time) AND m.time>{$db->Quote($session->lasttime)}
 				GROUP BY thread" );
 			$topiclist = (array) $db->loadObjectList ('id');
 			KunenaError::checkDatabaseError ();
 		}
-
 		$list = array();
 		//foreach ( $topics as $topic ) {
                 $total = 0;
