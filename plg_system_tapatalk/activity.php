@@ -151,7 +151,7 @@ function doPmNewMessage($params){
             'id'        => PmHelper::getId(),
             'subid'     => 1,
             'title'     => PmHelper::getShortMessage(JFactory::getApplication()->input->getString('pmessage'), 20),
-            'author'    => JFactory::getUser()->username,
+            'author'    => JFactory::getUser()->name,
             'dateline'  => time()
         );
     $oTapatalkPush = new TapatalkPush();

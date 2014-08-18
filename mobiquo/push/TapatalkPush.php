@@ -631,6 +631,7 @@ Class TapatalkPush extends TapatalkBasePush {
         
         if($message){
             foreach ($message as $msg){
+                if($this->oJUser->id == $msg->toid) continue;
                 $pushPack = array(
                     'userid'    => $msg->toid,
                     'type'      => 'pm',

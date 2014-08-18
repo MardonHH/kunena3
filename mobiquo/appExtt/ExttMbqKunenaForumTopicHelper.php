@@ -172,6 +172,7 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
         }
         unset ($results);
         KUNENA_PROFILER ? KunenaProfiler::instance()->stop('function '.__CLASS__.'::'.__FUNCTION__.'()') : null;
+        foreach ($topics as &$topic) $topic->posts = $total;
         return array($total, $topics);
     }
     
@@ -227,9 +228,8 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
 			}
 			$list[$topic->id] = $topic->lastread;
 		}
-                foreach ($topics as &$topic) $topic->totalPosts = $total;
+                //foreach ($topics as &$topic) $topic->totalPosts = $total;
 		return $topics;
-		//return $list;
 	}
 }
 
