@@ -306,7 +306,6 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
                 $objsKunenaForumTopic = ExttMbqKunenaForumTopicHelper::exttMbqFetchNewStatus(array($var));
                 $var = $objsKunenaForumTopic[0];
             }
-
             $oMbqEtForumTopic = MbqMain::$oClk->newObj('MbqEtForumTopic');
             $oMbqEtForumTopic->totalPostNum->setOriValue($var->posts);
             $oMbqEtForumTopic->topicId->setOriValue($var->id);
@@ -314,12 +313,15 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             $oMbqEtForumTopic->firstPostId->setOriValue($var->first_post_id);
             $oMbqEtForumTopic->topicTitle->setOriValue($var->subject);
             $oMbqEtForumTopic->topicContent->setOriValue($var->first_post_message);
-            $oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->first_post_message));
-            //$oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->last_post_message ? $var->last_post_message : $var->first_post_message));
+            if(MbqMain::$cmd =='get_topic'){
+                $oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->first_post_message));
+                $oMbqEtForumTopic->postTime->setOriValue($var->first_post_time);
+            }else{
+                $oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var->last_post_message ? $var->last_post_message : $var->first_post_message));
+                $oMbqEtForumTopic->postTime->setOriValue($var->last_post_time ? $var->last_post_time : $var->first_post_time);
+            }
             $oMbqEtForumTopic->topicAuthorId->setOriValue($var->first_post_userid);
             $oMbqEtForumTopic->lastReplyAuthorId->setOriValue($var->last_post_userid);
-            $oMbqEtForumTopic->postTime->setOriValue($var->first_post_time);
-            //$oMbqEtForumTopic->postTime->setOriValue($var->last_post_time ? $var->last_post_time : $var->first_post_time);
             $oMbqEtForumTopic->lastReplyTime->setOriValue($var->last_post_time);
             $oMbqEtForumTopic->replyNumber->setOriValue(($var->posts > 0) ? ($var->posts - 1) : $var->posts);
             $oMbqEtForumTopic->newPost->setOriValue($var->unread ? MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.newPost.range.yes') : MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.newPost.range.no'));

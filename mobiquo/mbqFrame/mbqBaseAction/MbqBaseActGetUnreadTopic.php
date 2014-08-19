@@ -42,6 +42,7 @@ Abstract Class MbqBaseActGetUnreadTopic extends MbqBaseAct {
             $this->data['result'] = true;
             $this->data['total_topic_num'] = (int) $oMbqDataPage->totalNum;
             $this->data['topics'] = $oMbqRdEtForumTopic->returnApiArrDataForumTopic($oMbqDataPage->datas);
+            //k($this->data);
         } else {
             MbqError::alert('', '', '', MBQ_ERR_APP);
         }

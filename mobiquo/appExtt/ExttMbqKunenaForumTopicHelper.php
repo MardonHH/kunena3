@@ -172,7 +172,6 @@ abstract class ExttMbqKunenaForumTopicHelper extends KunenaForumTopicHelper {
         }
         unset ($results);
         KUNENA_PROFILER ? KunenaProfiler::instance()->stop('function '.__CLASS__.'::'.__FUNCTION__.'()') : null;
-        foreach ($topics as &$topic) $topic->posts = $total;
         return array($total, $topics);
     }
     
