@@ -638,7 +638,7 @@ Class TapatalkPush extends TapatalkBasePush {
                     'id'        => $msg->id,
                     'subid'     => $boxId,
                     'title'     => $msg->message,
-                    'author'    => $this->oJUser->name,
+                    'author'    => $this->oJUser->username,
                     'dateline'  => time()
                 );
                 $push_data[] = $pushPack;

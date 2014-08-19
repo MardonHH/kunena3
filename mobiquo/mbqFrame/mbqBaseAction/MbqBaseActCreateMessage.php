@@ -42,6 +42,9 @@ Abstract Class MbqBaseActCreateMessage extends MbqBaseAct {
                     $date  = uddetime(MbqMain::$oMbqAppEnv->pm->config->timezone);
                     for ($j= 0; $j<count($toName); $j++){
                         $toUser = JFactory::getUser($toName[$j]);
+                        if(!$toUser->id){
+                            MbqError::alert('', "There is no user with this username: $toName[$j] !", '', MBQ_ERR_APP);
+                        }
                         $savemessage = (is_array($subject))? $subject[$j] : $subject;
                         if($savemessage) $savemessage .= PHP_EOL . ' ';
                         $savemessage .= (is_array($text_body))? $text_body[$j] : $text_body;
