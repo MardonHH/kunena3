@@ -14,12 +14,14 @@
         7. If it is the first time you install our plugin for your site,please register your site in tapatalk forum owner area:http://tapatalk.com/forum_owner.php.
 
 -- Change Log
-	Kunena 3.0 Series Tapatalk Plugin Version 1.1.4 released
-	1.only support for kunena 3;
-	2.updated banner feature;
-	3.fixed bug:causing other plugins breaks;
-	4.fixed bug:users can not login in Joomla! 3.2.x version;
-	5.some other modifications.
+	Kunena 3.0 Series Tapatalk Plugin Version 1.2.0 released
+
+	- Added support for Private Message with uddeim, with full push notification support
+	- Solved bug on unread topics not being listed in some forums
+	- Solved timezone issue that displayed incorrect post time/date
+	- Solved miscellaneous issues with push notifications
+	- Solved errors with images not being displayed correctly
+	- Miscellaneous minor changes and bug-fixes
 
 -- Special Instruction for PUSH feature
 	To support PUSH feature,you need get into tapatalk plugin setting page(Basic Options) of Joomla backend,select Enable Activity option to YES and input your site push key in the Push Key option,then click save.
