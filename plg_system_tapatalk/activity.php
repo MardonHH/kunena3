@@ -65,7 +65,7 @@ if(JPluginHelper::isEnabled('system', 'uddeim_hooks')){
                     $this->callbacks["$event"][] = $callback;
             }
             public function emit($event, $params) {
-                    if (count($this->callbacks["$event"])) {
+                    if (isset($this->callbacks["$event"]) and count($this->callbacks["$event"]) ) {
                             foreach ($this->callbacks["$event"] as $callback) {
                                     if (is_callable($callback))
                                             call_user_func($callback, $params);
