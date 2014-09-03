@@ -178,7 +178,6 @@ class PlgSystemTapatalk extends JPlugin
             $str .= '<script type="text/javascript">tapatalkDetect();</script>';
             $str .= '<!-- Tapatalk Banner body end -->';
             $buffer = preg_replace('/<body([^>]*?)>/i', '<body$1>'.$str, $buffer, 1);
-            $buffer = preg_replace('/\[img\](.*?)\[\/img\]/i', '<img alt="" src="$1"/>', $buffer);
     		JResponse::setBody($buffer);
     		return true;
     	} else {
