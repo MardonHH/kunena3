@@ -16,16 +16,10 @@ class PlgSystemTapatalk extends JPlugin
     
     function __construct(&$subject, $config = array()) {
         parent::__construct($subject, $config);
-        
         if (!$this->params->get('activity', 1)) return null;    //!!!
         require_once __DIR__ . "/activity.php";
-        // load uddeim
-        $uapi = JPATH_SITE . '/components/com_uddeim/uddeim.api.php';
-        if (file_exists($uapi)){
-            require_once $uapi;
-            $pm = new uddeIMAPI();
-            $pm->registerHook('onSaveMessage', 'doPmNewMessage');
-        }
+        $app = JFactory::getApplication();
+        if($app->isSite()) $this->hookUddeim();
     }
     
     public function onKunenaGetActivity() {
@@ -33,17 +27,22 @@ class PlgSystemTapatalk extends JPlugin
         return new KunenaActivityTapatalk($this->params);
     }
     
-	public function onAfterRender()
-	{
-		$app = JFactory::getApplication();
-
-		//if($app->getName() != 'kunena')
-		//	return false;
-		
-		if (!class_exists('KunenaForum'))
-			return false;
-		
-		//old detect js code	
+    public function  hookUddeim(){
+        $uapi = JPATH_SITE . '/components/com_uddeim/uddeim.api.php';
+        if (file_exists($uapi)){
+            if(JFactory::getApplication()->input->getCmd('option')=='com_uddeim') error_reporting(0);
+            require_once $uapi;
+            $pm = new uddeIMAPI();
+            if(method_exists($pm,'registerHook'))  $pm->registerHook('onSaveMessage', 'doPmNewMessage');
+        }
+    }
+    
+    public function onAfterRender() {
+        $app = JFactory::getApplication();
+        if (!class_exists('KunenaForum'))
+                return false;
+        //if($this->params->get('activity', 1)) $this->hookUddeim();
+        //old detect js code	
         //if (JRequest::getCmd('option') == 'com_kunena' && (JRequest::getCmd('view') == 'topics' || JRequest::getCmd('view') == 'category')) {
         /*
         $pathCustomDetectJs = 'mobiquo/custom/customDetectJs.php';

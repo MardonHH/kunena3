@@ -452,7 +452,7 @@ Class TapatalkPush extends TapatalkBasePush {
                     'id'        => $p['oMbqEtForumPost']->topicId->oriValue,
                     'subid'     => $p['oMbqEtForumPost']->postId->oriValue,
                     'title'     => $p['oMbqEtForumPost']->postTitle->oriValue,
-                    'author'    => $this->oJUser->name,
+                    'author'    => $this->getPushName(),
                     'dateline'  => time()
                 );
                 $push_data[] = $pushPack;
@@ -466,7 +466,7 @@ Class TapatalkPush extends TapatalkBasePush {
                     'id'        => $p['oKunenaForumMessage']->thread,
                     'subid'     => $p['oKunenaForumMessage']->id,
                     'title'     => $p['oKunenaForumMessage']->subject,
-                    'author'    => $this->oJUser->name,
+                    'author'    => $this->getPushName(),
                     'dateline'  => time()
                 );
                 $push_data[] = $pushPack;
@@ -508,7 +508,7 @@ Class TapatalkPush extends TapatalkBasePush {
                         'id'        => $topicId,
                         'subid'     => $oKunenaForumMessage->id,
                         'title'     => $oKunenaForumMessage->subject,
-                        'author'    => $this->oJUser->name,
+                        'author'    => $this->getPushName(),
                         'dateline'  => time()
                     );
                     $push_data[] = $pushPack;
@@ -552,7 +552,7 @@ Class TapatalkPush extends TapatalkBasePush {
                         'id'        => $topicId,
                         'subid'     => $postId,
                         'title'     => $oKunenaForumMessage->subject,
-                        'author'    => $this->oJUser->name,
+                        'author'    => $this->getPushName(),
                         'dateline'  => time()
                     );
                     $push_data[] = $pushPack;
@@ -638,7 +638,7 @@ Class TapatalkPush extends TapatalkBasePush {
                     'id'        => $msg->id,
                     'subid'     => $boxId,
                     'title'     => $msg->message,
-                    'author'    => $this->oJUser->name,
+                    'author'    => $this->getPushName(),
                     'dateline'  => time()
                 );
                 $push_data[] = $pushPack;
@@ -651,6 +651,12 @@ Class TapatalkPush extends TapatalkBasePush {
     protected function doPushCustomMessage($push_data) {
         $this->push($push_data);
         return false;
+    }
+    
+    public function getPushName(){
+        $config = KunenaFactory::getConfig ();
+        if($config->username) return $this->oJUser->username;
+        else return $this->oJUser->name;
     }
     
 }

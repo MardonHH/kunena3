@@ -145,16 +145,16 @@ function doPmNewMessage($params){
 
     $pushPath = JPATH_SITE . '/mobiquo/push/TapatalkPush.php';
     require_once($pushPath);
+    $oTapatalkPush = new TapatalkPush();
     $message = array(
             'userid'    => $params['toid'],
             'type'      => 'pm',
             'id'        => PmHelper::getId(),
             'subid'     => 1,
             'title'     => PmHelper::getShortMessage(JFactory::getApplication()->input->getString('pmessage'), 20),
-            'author'    => JFactory::getUser()->name,
+            'author'    => $oTapatalkPush->getPushName(),
             'dateline'  => time()
         );
-    $oTapatalkPush = new TapatalkPush();
     $oTapatalkPush->callMethod('doPushCustomMessage', array($message));
 }
 
