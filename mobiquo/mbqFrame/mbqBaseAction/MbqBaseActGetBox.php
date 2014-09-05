@@ -34,7 +34,8 @@ Abstract Class MbqBaseActGetBox extends MbqBaseAct {
                         $this->data['total_unread_count'] = (int) $oMbqRdEtPm->getTotalMessageInbox($boxId, 'unread');
                         $this->data['list'] = $oMbqEtPmBox;
                     } else {
-                        MbqError::alert('', "Need valid pm box id!", '', MBQ_ERR_APP);
+						//empty box
+                        //MbqError::alert('', "Need valid pm box id!", '', MBQ_ERR_APP);
                     }
                 }else{
                     MbqError::alert('', "Please login to get box!", '', MBQ_ERR_APP);
