@@ -19,7 +19,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclReportPm() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -28,7 +28,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclCreateMessage() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -37,7 +37,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclGetBoxInfo() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -46,7 +46,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclGetBox() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -55,7 +55,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclGetMessage() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -64,7 +64,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclGetQuotePm() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -73,7 +73,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclDeleteMessage() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -82,7 +82,7 @@ Abstract Class MbqBaseAclEtPm extends MbqBaseAcl {
      * @return  Boolean
      */
     public function canAclMarkPmUnread() {
-        return MbqMain::hasLogin();
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
   
 }
