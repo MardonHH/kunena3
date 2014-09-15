@@ -14,6 +14,9 @@
         7. If it is the first time you install our plugin for your site,please register your site in tapatalk forum owner area:http://tapatalk.com/forum_owner.php.
 
 -- Change Log
+	Kunena 3.0 Series Tapatalk Plugin Version 1.2.1 released
+	- Miscellaneous minor changes and bug-fixes introduced in previous version
+	
 	Kunena 3.0 Series Tapatalk Plugin Version 1.2.0 released
 
 	- Added support for Private Message with uddeim, with full push notification support
