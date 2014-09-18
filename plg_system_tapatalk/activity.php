@@ -10,7 +10,7 @@ jimport('joomla.plugin.plugin');
 /**
  * integrated with Kunena
  */
- if(!class_exists('KunenaActivity')){
+if(class_exists('KunenaActivity')){
 	class KunenaActivityTapatalk extends KunenaActivity
 	{
 		

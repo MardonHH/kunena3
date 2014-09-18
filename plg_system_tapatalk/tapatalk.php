@@ -24,7 +24,7 @@ class PlgSystemTapatalk extends JPlugin
     
     public function onKunenaGetActivity() {
         if (!$this->params->get('activity', 1)) return null;    //!!!
-        return new KunenaActivityTapatalk($this->params);
+        if(class_exists('KunenaActivityTapatalk')) return new KunenaActivityTapatalk($this->params);
     }
     
     public function  hookUddeim(){
