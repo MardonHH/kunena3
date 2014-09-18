@@ -5,7 +5,7 @@
     <author>Tapatalk Team</author>
     <authorUrl>http://www.tapatalk.com</authorUrl>
     <copyright>Copyright (C) Quoord Systems Ltd. All rights reserved.</copyright>
-    <version>kn30_1.2.0</version>
+    <version>kn30_1.2.1</version>
     <description>Tapatalk Kunena Plugin</description>
     <scriptfile>script.php</scriptfile>
 	<files>
