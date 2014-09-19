@@ -110,7 +110,12 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
                 $oMbqEtUser->userGroupIds->setOriValue(MbqMain::$oMbqCm->removeArrayKey($oJUser->groups));
             else    //used in joomla 1.5.x
                 $oMbqEtUser->userGroupIds->setOriValue(array($oJUser->gid));
-            $oMbqEtUser->iconUrl->setOriValue($var['oKunenaUser']->getAvatarURL());
+            $avatar = $var['oKunenaUser']->getAvatarURL();
+            $isdefaultAvatar = strpos($avatar,'nophoto.jpg') !== false;
+            if($isdefaultAvatar == false)
+            {
+                $oMbqEtUser->iconUrl->setOriValue($avatar);
+            }
             $oMbqEtUser->canSearch->setOriValue(MbqBaseFdt::getFdt('MbqFdtUser.MbqEtUser.canSearch.range.yes'));
             $oMbqEtUser->postCount->setOriValue($var['oKunenaUser']->posts);
             //$oMbqEtUser->displayText->setOriValue($var['oKunenaUser']->signature);
