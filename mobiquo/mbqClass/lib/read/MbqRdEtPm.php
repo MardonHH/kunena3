@@ -200,6 +200,7 @@ Class MbqRdEtPm extends MbqBaseRdEtPm {
             $post = html_entity_decode($post, ENT_QUOTES, 'UTF-8');
             $post = strip_tags($post, '<br><i><b><u><font>');
     	}
+        $post = str_replace(PHP_EOL, '<br/>' , $post);
     	$post = trim($post);
     	return $post;
       

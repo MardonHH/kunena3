@@ -383,6 +383,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         attention output param:post_content
         */
         $post = $content;
+        
         $post = MbqMain::$oMbqCm->unreplaceCodes($post, 'quote|email|ebay|map');
         /* change the &quot; in quote bbcode to " maked by kunena! */
         $post = preg_replace('/\[quote=&quot;(.*?)&quot;.*?\]/i', '[quote="$1"]', $post);
@@ -419,7 +420,9 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	$post = preg_replace('/<div class="highlight"><pre xml\:php>(.*?)<\/pre><\/div>/i', '[quote]$1[/quote]', $post);
     	$post = preg_replace('/<div class="kmsgtext\-hide">(.*?)<\/div>/i', '[quote]$1[/quote]', $post);
     	$post = preg_replace('/<div class="kmsgtext-confidential">(.*?)<\/div>/i', '[quote]$1[/quote]', $post);
-    	$post = preg_replace('/\[email\](.*?)\[\/email\]/i', '[url=$1]$1[/url]', $post);
+        
+    	
+       
     	//$post = preg_replace('/\[ebay\](.*?)\[\/ebay\]/i', '[url=http://www.ebay.com/sch/i.html?_nkw=$1]$1 on eBay[/url]', $post);
     	$post = preg_replace_callback('/\[ebay\](.*?)\[\/ebay\]/i', create_function('$matches','return \'[url=http://www.ebay.com/sch/i.html?_nkw=\'.urlencode($matches[1]).\']\'.$matches[1].\' on eBay[/url]\';'), $post);
     	//$post = preg_replace('/\[map\](.*?)\[\/map\]/i', '[url=https://maps.google.com/maps?q=$1]$1 on Google Maps[/url]', $post);
@@ -466,8 +469,11 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         $post = preg_replace('/<iframe .*?src="(.*?)".*?\/><\/iframe>/si', "[url=$1]$1[/url]", $post);    /* for youtube content */
     	$post = preg_replace('/<div class="bbcode_indent" .*?>(.*?)<\/div>/is', "\t\t".'$1', $post);
     	$post = preg_replace('/<div class="kspoiler".*?><div class="kspoiler\-header".*?>.*?<\/div><div class="kspoiler\-wrapper".*?><div class="kspoiler\-content".*?>(.*?)<\/div><\/div><\/div>/i', '[spoiler]$1[/spoiler]', $post);
+        $post = preg_replace('/\[email\](.*?)\[\/email\]/i', '[url=mailto:$1]$1[/url]', $post);
+        $post = preg_replace('/\(adsbygoogle\s+=\s+.*\.push\({}\);/i', '', $post);
         if ($returnHtml) {
     	    $post = str_ireplace('</div>', '</div><br />', $post);
+           
     	    $post = strip_tags($post, '<br><i><b><u><font>');
             
     	    if (KunenaForum::version() == '2.0.1') {
@@ -513,9 +519,6 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	    $post = strip_tags($post);
         }
     	$post = trim($post);
-        
-         
-        
         //$post= preg_replace('/\[emoji(\d+)\]/i', '<img src="'.$protocol.'://s3.amazonaws.com/tapatalk-emoji/emoji\1.png" />', $post);
     	return $post;
     }

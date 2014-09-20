@@ -413,6 +413,10 @@ Abstract Class MbqBaseCm {
      * @param  String  $type  replacement type.'bbcodeName' means replace bbcode name for our rules.
      */
     public function replaceCodes($content, $strNeedReplaced, $type = 'bbcodeName') {
+        preg_match_all('/[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/i', $content, $match);
+        if(!empty($match[0])) foreach ($match[0] as $email){
+            $content = str_replace($email, '[email]' . $email .'[/email]', $content);
+        }
         switch ($type) {
             case 'bbcodeName':
                 $arr = explode('|', $strNeedReplaced);
@@ -423,6 +427,8 @@ Abstract Class MbqBaseCm {
             default:
             break;
         }
+        
+
         return $content;
     }
     

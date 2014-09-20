@@ -13,14 +13,14 @@ Abstract Class MbqFdtUser extends MbqBaseFdt {
     public static $df = array(
         'MbqEtUser' => array(
             'canPm' => array(
-                'default' => true,
+                'default' => false,
                 'range' => array(
                     'yes' => true,
                     'no' => false
                 )
             ),
             'canSendPm' => array(
-                'default' => true,
+                'default' => false,
                 'range' => array(
                     'yes' => true,
                     'no' => false
