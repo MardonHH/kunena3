@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="system" method="upgrade">
 	<name>Tapatalk Kunena Plugin</name>
-    <creationDate>December 2013</creationDate>
+    <creationDate>September 2014</creationDate>
     <author>Tapatalk Team</author>
     <authorUrl>http://www.tapatalk.com</authorUrl>
     <copyright>Copyright (C) Quoord Systems Ltd. All rights reserved.</copyright>
