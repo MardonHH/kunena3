@@ -221,6 +221,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqIoHandleJson', MBQ_IO_HANDLE_PATH.'MbqIoHandleJson.php');
         MbqMain::$oClk->reg('MbqIoHandleAdvJson', MBQ_IO_HANDLE_PATH.'MbqIoHandleAdvJson.php');
         /* base action class */
+        MbqMain::$oClk->reg('MbqBaseActAvatar', MBQ_BASE_ACTION_PATH.'MbqBaseActAvatar.php');
         MbqMain::$oClk->reg('MbqBaseActGetConfig', MBQ_BASE_ACTION_PATH.'MbqBaseActGetConfig.php');
         MbqMain::$oClk->reg('MbqBaseActGetForum', MBQ_BASE_ACTION_PATH.'MbqBaseActGetForum.php');
         MbqMain::$oClk->reg('MbqBaseActGetTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActGetTopic.php');
@@ -256,6 +257,16 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqBaseActMStickTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMStickTopic.php');
         MbqMain::$oClk->reg('MbqBaseActMCloseTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMCloseTopic.php');
         MbqMain::$oClk->reg('MbqBaseActMDeleteTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMDeleteTopic.php');
+	MbqMain::$oClk->reg('MbqBaseActMCloseReport', MBQ_BASE_ACTION_PATH.'MbqBaseActMCloseReport.php');
+	MbqMain::$oClk->reg('MbqBaseActMMergeTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMMergeTopic.php');
+	MbqMain::$oClk->reg('MbqBaseActMUnbanUser', MBQ_BASE_ACTION_PATH.'MbqBaseActMUnbanUser.php');
+	MbqMain::$oClk->reg('MbqBaseActMMergePost', MBQ_BASE_ACTION_PATH.'MbqBaseActMMergePost.php');
+	MbqMain::$oClk->reg('MbqBaseActMMarkAsSpam', MBQ_BASE_ACTION_PATH.'MbqBaseActMMarkAsSpam.php');
+	MbqMain::$oClk->reg('MbqBaseActMGetReportPost', MBQ_BASE_ACTION_PATH.'MbqBaseActMGetReportPost.php');
+	MbqMain::$oClk->reg('MbqBaseActMGetModerateTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMGetModerateTopic.php');
+	MbqMain::$oClk->reg('MbqBaseActMGetModeratePost', MBQ_BASE_ACTION_PATH.'MbqBaseActMGetModeratePost.php');
+	MbqMain::$oClk->reg('MbqBaseActMGetDeleteTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMGetDeleteTopic.php');
+	MbqMain::$oClk->reg('MbqBaseActMGetDeletePost', MBQ_BASE_ACTION_PATH.'MbqBaseActMGetDeletePost.php');
         MbqMain::$oClk->reg('MbqBaseActMUndeleteTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActMUndeleteTopic.php');
         MbqMain::$oClk->reg('MbqBaseActMDeletePost', MBQ_BASE_ACTION_PATH.'MbqBaseActMDeletePost.php');
         MbqMain::$oClk->reg('MbqBaseActMUndeletePost', MBQ_BASE_ACTION_PATH.'MbqBaseActMUndeletePost.php');
@@ -280,7 +291,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqBaseActGetQuotePm', MBQ_BASE_ACTION_PATH.'MbqBaseActGetQuotePm.php');
         MbqMain::$oClk->reg('MbqBaseActDeleteMessage', MBQ_BASE_ACTION_PATH.'MbqBaseActDeleteMessage.php');
         MbqMain::$oClk->reg('MbqBaseActMarkPmUnread', MBQ_BASE_ACTION_PATH.'MbqBaseActMarkPmUnread.php');
-		MbqMain::$oClk->reg('MbqBaseActMarkPmRead', MBQ_BASE_ACTION_PATH.'MbqBaseActMarkPmRead.php');
+	MbqMain::$oClk->reg('MbqBaseActMarkPmRead', MBQ_BASE_ACTION_PATH.'MbqBaseActMarkPmRead.php');
         MbqMain::$oClk->reg('MbqBaseActGetThreadByPost', MBQ_BASE_ACTION_PATH.'MbqBaseActGetThreadByPost.php');
         MbqMain::$oClk->reg('MbqBaseActGetThreadByUnread', MBQ_BASE_ACTION_PATH.'MbqBaseActGetThreadByUnread.php');
         MbqMain::$oClk->reg('MbqBaseActSignIn', MBQ_BASE_ACTION_PATH.'MbqBaseActSignIn.php');
@@ -290,6 +301,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqBaseActForgetPassword', MBQ_BASE_ACTION_PATH.'MbqBaseActForgetPassword.php');
         MbqMain::$oClk->reg('MbqBaseActRegister', MBQ_BASE_ACTION_PATH.'MbqBaseActRegister.php');
         /* action class */
+        MbqMain::$oClk->reg('MbqActAvatar', MBQ_ACTION_PATH.'MbqActAvatar.php');
         MbqMain::$oClk->reg('MbqActGetConfig', MBQ_ACTION_PATH.'MbqActGetConfig.php');
         MbqMain::$oClk->reg('MbqActGetForum', MBQ_ACTION_PATH.'MbqActGetForum.php');
         MbqMain::$oClk->reg('MbqActGetTopic', MBQ_ACTION_PATH.'MbqActGetTopic.php');
@@ -325,6 +337,16 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqActMStickTopic', MBQ_ACTION_PATH.'MbqActMStickTopic.php');
         MbqMain::$oClk->reg('MbqActMCloseTopic', MBQ_ACTION_PATH.'MbqActMCloseTopic.php');
         MbqMain::$oClk->reg('MbqActMDeleteTopic', MBQ_ACTION_PATH.'MbqActMDeleteTopic.php');
+	MbqMain::$oClk->reg('MbqActMCloseReport', MBQ_ACTION_PATH.'MbqActMCloseReport.php');
+	MbqMain::$oClk->reg('MbqActMMergeTopic', MBQ_ACTION_PATH.'MbqActMMergeTopic.php');
+	MbqMain::$oClk->reg('MbqActMUnbanUser', MBQ_ACTION_PATH.'MbqActMUnbanUser.php');
+	MbqMain::$oClk->reg('MbqActMMergePost', MBQ_ACTION_PATH.'MbqActMMergePost.php');
+	MbqMain::$oClk->reg('MbqActMMarkAsSpam', MBQ_ACTION_PATH.'MbqActMMarkAsSpam.php');
+	MbqMain::$oClk->reg('MbqActMGetReportPost', MBQ_ACTION_PATH.'MbqActMGetReportPost.php');
+	MbqMain::$oClk->reg('MbqActMGetModerateTopic', MBQ_ACTION_PATH.'MbqActMGetModerateTopic.php');
+	MbqMain::$oClk->reg('MbqActMGetModeratePost', MBQ_ACTION_PATH.'MbqActMGetModeratePost.php');
+	MbqMain::$oClk->reg('MbqActMGetDeleteTopic', MBQ_ACTION_PATH.'MbqActMGetDeleteTopic.php');
+	MbqMain::$oClk->reg('MbqActMGetDeletePost', MBQ_ACTION_PATH.'MbqActMGetDeletePost.php');
         MbqMain::$oClk->reg('MbqActMUndeleteTopic', MBQ_ACTION_PATH.'MbqActMUndeleteTopic.php');
         MbqMain::$oClk->reg('MbqActMDeletePost', MBQ_ACTION_PATH.'MbqActMDeletePost.php');
         MbqMain::$oClk->reg('MbqActMUndeletePost', MBQ_ACTION_PATH.'MbqActMUndeletePost.php');
@@ -349,7 +371,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqActGetQuotePm', MBQ_ACTION_PATH.'MbqActGetQuotePm.php');
         MbqMain::$oClk->reg('MbqActDeleteMessage', MBQ_ACTION_PATH.'MbqActDeleteMessage.php');
         MbqMain::$oClk->reg('MbqActMarkPmUnread', MBQ_ACTION_PATH.'MbqActMarkPmUnread.php');
-		MbqMain::$oClk->reg('MbqActMarkPmRead', MBQ_ACTION_PATH.'MbqActMarkPmRead.php');
+	MbqMain::$oClk->reg('MbqActMarkPmRead', MBQ_ACTION_PATH.'MbqActMarkPmRead.php');
         MbqMain::$oClk->reg('MbqActGetThreadByPost', MBQ_ACTION_PATH.'MbqActGetThreadByPost.php');
         MbqMain::$oClk->reg('MbqActGetThreadByUnread', MBQ_ACTION_PATH.'MbqActGetThreadByUnread.php');
         MbqMain::$oClk->reg('MbqActSignIn', MBQ_ACTION_PATH.'MbqActSignIn.php');

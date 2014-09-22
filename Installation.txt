@@ -14,6 +14,12 @@
         7. If it is the first time you install our plugin for your site,please register your site in tapatalk forum owner area:http://tapatalk.com/forum_owner.php.
 
 -- Change Log
+	Kunena 3.0 Series Tapatalk Plugin Version 1.2.3	released
+	- Fix error KunenaActivity class not found
+	- Fix error about Content - Email cloaking message
+	- Fix line breaks issue
+	- Fix "MESSAGES" appears without Uddeim installed
+	
 	Kunena 3.0 Series Tapatalk Plugin Version 1.2.1 released
 	- Miscellaneous minor changes and bug-fixes introduced in previous version
 	
